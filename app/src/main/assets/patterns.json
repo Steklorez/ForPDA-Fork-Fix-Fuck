@@ -1,5 +1,5 @@
 {
-  "version": 27,
+  "version": 100,
   "scopes": [
     {
       "scope":"global",
@@ -97,7 +97,7 @@
       "patterns": [
         {
           "key": "form",
-          "value": "[^<]*?<textarea[^>]*>([\\s\\S]*?)<\\/textarea>[\\s\\S]*?<input[^>]*?name=\"post_edit_reason\" value=\"([^\"]*?)\""
+          "value": "<textarea[^>]*>([\\s\\S]*?)<\\/textarea>(?:[\\s\\S]*?<input(?=[^>]*?name=\"post_edit_reason\")[^>]*?value=\"([^\"]*?)\")?"
         },
         {
           "key": "poll_info",
@@ -165,7 +165,7 @@
       "patterns": [
         {
           "key": "list",
-          "value": "<article[^>]*?class=\"post[^\"]*?\"[^>]*?>[^<]*?<div[^>]*?>[^<]*?(?:<div[^>]*?>[^<]*?<\\/div>)?[^<]*?<a[^>]*?href=\"([^\"]*\\/(\\d+)\\/?(?:[^\"]*?\\/?))\"[^>]*?title=\"([^\"]*?)\"[\\s\\S]*?<img[^>]*?src=\"([^\"]*?)\"[\\s\\S]*?<a[^>]*?>([^<]*?)<\\/a>[\\s\\S]*?<em[^>]*?class=\"date\"[^>]*?>([^<]*?)<\\/em>[\\s\\S]*?<a[^>]*?href=\"[^\"]*?showuser=(\\d+)\"[^>]*?>([^<]*?)<\\/a>[\\s\\S]*?<div[^>]*?itemprop=\"description\">([\\s\\S]*?)<\\/div>[\\s\\S]*?(?:<div[^>]*?class=\"meta\">([\\s\\S]*?)<\\/div>[\\s\\S])*?<\\/article>|<li itemscope[^>]*?>[^<]*?<div class=\"photo\">[^<]*?<a[^>]*?href=\"([^\"]*\\/(\\d+)\\/?)\"[^>]*?>[^<]*?<img[^>]*?src=\"([^\"]*?)\"[^>]*?title=\"([^\"]*?)\"[^>]*?>[\\s\\S]*?<a[^>]*?class=\"v-count\"[^>]*?>([^<]*?)<\\/a>[\\s\\S]*?<meta[^>]*?content=\"((\\d+-\\d+-\\d+)[^\"]*?)\"[^>]*?>[\\s\\S]*?<div class=\"content\" itemprop=\"description\">[\\s\\S]*?<div class=\"summary\"[^>]*?>[^<]*?<meta[^>]*?content=\"([^\"]*?)\"[^>]*?>[^<]*?<meta[^>]*?content=\"([^\"]*?)\"[^>]*?>[^<]*?<div itemprop=\"description\">([\\s\\S]*?)<\\/div>[^<]*?<\\/div>[^<]*?<span class=\"bg-shadow\">"
+          "value": "<article[^>]*?class=\"post[^\"]*?\"[^>]*?>[\\s\\S]+?<a[^>]*?href=\"([^\"]*\\/(\\d+)\\/?(?:[^\"]*?\\/?))\"[^>]*?title=\"([^\"]*?)\"[\\s\\S]*?<img[^>]*?src=\"([^\"]*?)\"[\\s\\S]*?<a[^>]*?>([^<]*?)<\\/a>[\\s\\S]*?<em[^>]*?class=\"date\"[^>]*?>([^<]*?)<\\/em>[\\s\\S]*?<a[^>]*?href=\"[^\"]*?showuser=(\\d+)\"[^>]*?>([^<]*?)<\\/a>[\\s\\S]*?<div[^>]*?itemprop=\"description\">([\\s\\S]*?)<\\/div>[\\s\\S]*?(?:<div[^>]*?class=\"meta\">([\\s\\S]*?)<\\/div>[\\s\\S])*?<\\/article>"
         },
         {
           "key": "detail",
@@ -193,7 +193,7 @@
         },
         {
           "key": "karma",
-          "value": "\\\"(\\d+)\\\":\\[(.+?),(.+?),(.+?),(.+?)\\]"
+          "value": "\\\"(\\d+)\\\":\\[(-?\\d+),(-?\\d+),(-?\\d+),(-?\\d+)\\]"
         },
         {
           "key": "karmaSource",

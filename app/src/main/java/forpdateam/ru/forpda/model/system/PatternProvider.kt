@@ -58,6 +58,7 @@ class PatternProvider(
     private fun update(version: Int, newData: Map<String, MutableMap<String, String>>) {
         //Log.e("PatternProvider", "version $version, nds=${newData.size}")
         setLocalData(newData)
+        currentVersion = version
         save(version, patternSources)
     }
 
