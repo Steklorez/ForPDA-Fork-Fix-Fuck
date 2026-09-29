@@ -22,7 +22,7 @@ See [CHANGELOG.md](CHANGELOG.md). Short version:
 
 - News comments load again
 - "Quote" is back in the text selection menu (Android 12+)
-- Editing your own post no longer opens an empty editor (and no longer nukes the post on save)
+- Editing your own post no longer opens an empty editor (and no longer nukes the post on save), and the editor closes after saving
 - Article karma stops throwing exceptions on every open
 - Attachments are read fully before upload
 - Parser patterns are bundled and pinned, the dead remote no longer overrides them
