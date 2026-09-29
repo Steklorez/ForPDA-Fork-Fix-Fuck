@@ -34,9 +34,11 @@ See [CHANGELOG.md](CHANGELOG.md). Short version:
 - `sdk.dir` in `local.properties`
 
 ```
-gradlew assembleDevDebug     # ru.forpdateam.forpda.debug, installs next to the original
-gradlew assembleStableRelease
+gradlew assembleDevDebug       # ru.forpdateam.forpda.fff.debug
+gradlew assembleStableRelease  # ru.forpdateam.forpda.fff -> ForPDAFFF-1.0.1-fff.apk
 ```
+
+Package is `ru.forpdateam.forpda.fff`, so it lives next to the original ForPDA, not on top of it.
 
 ## Credits
 
