@@ -42,6 +42,13 @@ class EventsRepository(
 
     private var timerPeriod = (10 * 1000).toLong()
 
+    // The 4pda events socket (app.4pda.to:993 / appbk.4pda.to/ws) accepts the subscribe
+    // and then never says a word. The site and the "4PDA Inspector" extension poll a tiny
+    // counter instead: appbk.4pda.to/er/u<id>/s<last> -> "u<id>:<n>:<ts>:<lastEventTs>".
+    // We do the same once a minute and run the real inspector check only when it moved.
+    private val appbkEventPattern = Regex("""u\d+:\d+:\d+:(\d+)""")
+    private var lastAppbkEvent = 0L
+
     private val pendingEvents = mapOf<NotificationEvent.Source, MutableMap<Int, NotificationEvent>>(
         NotificationEvent.Source.QMS to mutableMapOf(),
         NotificationEvent.Source.THEME to mutableMapOf(),
@@ -155,10 +162,7 @@ class EventsRepository(
                     "start timer $it (${(System.currentTimeMillis() - lastTimerStamp) / 1000}), ${webSocketController.isConnected()}"
                 )
                 lastTimerStamp = System.currentTimeMillis()
-                if (!webSocketController.isConnected()) {
-                    stop()
-                    start(false)
-                }
+                checkEventsCounter()
             }
 
         timerPeriod = notificationPreferencesHolder.getMainLimit()
@@ -196,9 +200,7 @@ class EventsRepository(
             "Start: ${networkStateProvider.getState()} : ${webSocketController.isConnected()} : $checkEvents : ${webSocketController.getCurrentId()}"
         )
         if (networkStateProvider.getState() && authHolder.get().isAuth()) {
-            if (!webSocketController.isConnected()) {
-                webSocketController.connect()
-            }
+            // no socket: it's silent anyway, see checkEventsCounter()
 
             if (checkEvents) {
                 hardHandleEvent(NotificationEvent.Source.THEME)
@@ -207,6 +209,30 @@ class EventsRepository(
             Log.d("SUKA", "PERIOD BLYAD $timerPeriod")
             resetTimer()
         }
+    }
+
+    private fun checkEventsCounter() {
+        if (!networkStateProvider.getState() || !authHolder.get().isAuth()) return
+        val userId = authHolder.get().userId
+        Single
+            .fromCallable {
+                val body = webClient.get("https://appbk.4pda.to/er/u$userId/s$lastAppbkEvent").body.orEmpty()
+                appbkEventPattern.find(body)?.groupValues?.get(1)?.toLong() ?: -1L
+            }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({ event ->
+                if (event < 0) return@subscribe
+                val changed = lastAppbkEvent != 0L && event != lastAppbkEvent
+                lastAppbkEvent = event
+                if (changed) {
+                    Log.d(LOG_TAG, "appbk: new events, checking inspector")
+                    hardHandleEvent(NotificationEvent.Source.THEME)
+                    hardHandleEvent(NotificationEvent.Source.QMS)
+                }
+            }, {
+                Log.d(LOG_TAG, "appbk check failed: ${it.message}")
+            })
     }
 
     private fun stop() {

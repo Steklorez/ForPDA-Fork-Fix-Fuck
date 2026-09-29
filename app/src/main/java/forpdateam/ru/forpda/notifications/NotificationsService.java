@@ -77,10 +77,19 @@ public class NotificationsService extends Service {
     }
 
     public static void startAndCheck() {
+        Intent intent = new Intent(App.getContext(), NotificationsService.class).setAction(NotificationsService.CHECK_LAST_EVENTS);
         try {
-            Intent intent = new Intent(App.getContext(), NotificationsService.class).setAction(NotificationsService.CHECK_LAST_EVENTS);
-            App.getContext().startService(intent);
             App.getContext().bindService(intent, App.get().getServiceConnection(), Context.BIND_AUTO_CREATE);
+        } catch (Exception ignore) {
+        }
+        try {
+            App.getContext().startService(intent);
+        } catch (IllegalStateException ex) {
+            // Android 8+ forbids starting services from the background (the periodic job,
+            // screen-on, doze exit...). It used to die here silently, so background
+            // notifications never came. Binding is allowed: the bound service posts the
+            // notifications, and we kick the check ourselves.
+            App.get().Di().getEventsRepository().externalStart(true);
         } catch (Exception ignore) {
         }
     }
