@@ -121,7 +121,9 @@ class EditPostPresenter(
         router.exit()
     }
 
+    // Cicerone upgrade dropped exitWithResult(); it used to be exit() + sendResult()
     fun exitWithSync(message: String, intArray: IntArray, attachments: List<AttachmentItem>) {
+        router.exit()
         router.sendResult(Screen.Theme.CODE_RESULT_SYNC, EditPostSyncData().also {
             it.topicId = postForm.topicId
             it.message = message
@@ -132,6 +134,7 @@ class EditPostPresenter(
     }
 
     fun exitWithPage(page: ThemePage) {
+        router.exit()
         router.sendResult(Screen.Theme.CODE_RESULT_PAGE, page)
     }
 }
