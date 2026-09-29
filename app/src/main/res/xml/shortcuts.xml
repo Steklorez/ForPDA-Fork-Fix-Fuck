@@ -11,7 +11,7 @@
             android:action="android.intent.action.VIEW"
             android:data="https://4pda.ru/forum/index.php?act=mentions"
             android:targetClass="forpdateam.ru.forpda.ui.activities.MainActivity"
-            android:targetPackage="ru.forpdateam.forpda" />
+            android:targetPackage="ru.forpdateam.forpda.fff" />
     </shortcut>
 
     <shortcut
@@ -24,7 +24,7 @@
             android:action="android.intent.action.VIEW"
             android:data="https://4pda.ru/forum/index.php?act=qms"
             android:targetClass="forpdateam.ru.forpda.ui.activities.MainActivity"
-            android:targetPackage="ru.forpdateam.forpda" />
+            android:targetPackage="ru.forpdateam.forpda.fff" />
     </shortcut>
 
     <shortcut
@@ -37,7 +37,7 @@
             android:action="android.intent.action.VIEW"
             android:data="https://4pda.ru/forum/index.php?act=fav"
             android:targetClass="forpdateam.ru.forpda.ui.activities.MainActivity"
-            android:targetPackage="ru.forpdateam.forpda" />
+            android:targetPackage="ru.forpdateam.forpda.fff" />
     </shortcut>
 
     <shortcut
@@ -50,7 +50,7 @@
             android:action="android.intent.action.VIEW"
             android:data="https://4pda.ru/"
             android:targetClass="forpdateam.ru.forpda.ui.activities.MainActivity"
-            android:targetPackage="ru.forpdateam.forpda" />
+            android:targetPackage="ru.forpdateam.forpda.fff" />
     </shortcut>
 </shortcuts>
 

@@ -17,13 +17,13 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    def fileNaming = "ForPDA"
+    def fileNaming = "ForPDAFFF"
 
-    def versionNumber = 223
+    def versionNumber = 300 // above the corpse (224), so its update checker shuts up
 
     def versionMajor = "1"
     def versionMinor = "0"
-    def versionPatch = "0"
+    def versionPatch = "1-fff"
 
     def versionBuild = -1
     def versionPropsFile = file('version.properties')
@@ -39,7 +39,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "ru.forpdateam.forpda"
+        applicationId "ru.forpdateam.forpda.fff"
         versionCode versionNumber
         versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"
         minSdkVersion 21
@@ -86,14 +86,14 @@ android {
             dimension "type"
         }
         beta {
-            applicationId 'ru.forpdateam.forpda.beta'
+            applicationId 'ru.forpdateam.forpda.fff.beta'
             versionCode versionNumber
             versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild}) beta"
             dimension "type"
         }
 
         dev {
-            applicationId 'ru.forpdateam.forpda.debug'
+            applicationId 'ru.forpdateam.forpda.fff.debug'
             versionCode versionNumber
             versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild}) dev"
             dimension "type"
@@ -125,6 +125,10 @@ android {
         }
     }
     namespace 'forpdateam.ru.forpda'
+    lint {
+        // targetSdk stays 29 on purpose: 35 forces edge-to-edge and changes the UI. Not a Play app anyway.
+        disable 'ExpiredTargetSdkVersion'
+    }
     buildFeatures {
         buildConfig true
     }
