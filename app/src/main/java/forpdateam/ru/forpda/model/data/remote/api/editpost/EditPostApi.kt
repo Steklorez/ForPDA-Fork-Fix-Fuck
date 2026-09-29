@@ -1,5 +1,7 @@
 package forpdateam.ru.forpda.model.data.remote.api.editpost
 
+import android.util.Log
+import forpdateam.ru.forpda.BuildConfig
 import forpdateam.ru.forpda.entity.remote.editpost.EditPostForm
 import forpdateam.ru.forpda.entity.remote.theme.ThemePage
 import forpdateam.ru.forpda.model.data.remote.IWebClient
@@ -31,6 +33,9 @@ class EditPostApi(
         }
 
         val form = editPostParser.parseForm(response.body)
+        if (BuildConfig.DEBUG && form.message.isEmpty()) {
+            Log.e("EditPostApi", "edit form not parsed, body: " + response.body.take(4000))
+        }
         form.poll = editPostParser.parsePoll(response.body)
 
         response =

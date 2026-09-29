@@ -23,7 +23,7 @@ class EditPostParser(
             .matcher(response)
             .findOnce {
                 form.message = ApiUtils.escapeNewLine(it.group(1)).fromHtml().orEmpty()
-                form.editReason = it.group(2)
+                form.editReason = it.group(2) ?: ""
             }
 
         return form
