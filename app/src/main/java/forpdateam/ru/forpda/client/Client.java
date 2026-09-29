@@ -172,15 +172,6 @@ public class Client implements IWebClient {
             .cookieJar(cookieJar)
             .build();
 
-    private final OkHttpClient webSocketClient = new OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .sslSocketFactory(getNewSslContext().getSocketFactory())
-            .retryOnConnectionFailure(true)
-            .cookieJar(cookieJar)
-            .build();
-
 
     private SSLContext getNewSslContext() {
         SSLContext sslContext;
@@ -311,10 +302,8 @@ public class Client implements IWebClient {
     }
 
     public WebSocket createWebSocketConnection(WebSocketListener webSocketListener) {
-        Request request = new Request.Builder()
-                .url("ws://app.4pda.to/ws/")
-                .build();
-        return webSocketClient.newWebSocket(request, webSocketListener);
+        // ws://app.4pda.to/ws/ is dead; the events server now wants raw WS frames on :993
+        return new RawWebSocket("app.4pda.to", 993, webSocketListener).connect();
     }
 
     private void checkForumErrors(String res) throws Exception {
