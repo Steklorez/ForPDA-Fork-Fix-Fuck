@@ -413,6 +413,17 @@ public class ExtendedWebView extends NestedWebView implements IBase {
         return actionMode;
     }
 
+    /*
+     * Chromium WebView заполняет и обновляет меню выделения уже после startActionMode
+     * (в onCreateActionMode/onPrepareActionMode), затирая наши пункты («Цитировать» и т.д.).
+     * Поэтому кастомное меню применяется после каждого такого вызова.
+     */
+    private void applyCustomMenu(ActionMode mode, ActionMode.Callback callback) {
+        if (actionModeListener != null && mode != null) {
+            actionModeListener.onCreate(mode, callback);
+        }
+    }
+
     private ActionMode.Callback getActionModeCallback(ActionMode.Callback callback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return new ActionMode.Callback2() {
@@ -428,12 +439,16 @@ public class ExtendedWebView extends NestedWebView implements IBase {
 
                 @Override
                 public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                    return callback.onCreateActionMode(mode, menu);
+                    boolean result = callback.onCreateActionMode(mode, menu);
+                    applyCustomMenu(mode, this);
+                    return result;
                 }
 
                 @Override
                 public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                    return callback.onPrepareActionMode(mode, menu);
+                    callback.onPrepareActionMode(mode, menu);
+                    applyCustomMenu(mode, this);
+                    return true;
                 }
 
                 @Override
@@ -455,12 +470,16 @@ public class ExtendedWebView extends NestedWebView implements IBase {
 
                 @Override
                 public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                    return callback.onCreateActionMode(mode, menu);
+                    boolean result = callback.onCreateActionMode(mode, menu);
+                    applyCustomMenu(mode, this);
+                    return result;
                 }
 
                 @Override
                 public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                    return callback.onPrepareActionMode(mode, menu);
+                    callback.onPrepareActionMode(mode, menu);
+                    applyCustomMenu(mode, this);
+                    return true;
                 }
 
                 @Override
