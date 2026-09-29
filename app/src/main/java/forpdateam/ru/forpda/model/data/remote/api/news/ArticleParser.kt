@@ -273,7 +273,9 @@ class ArticleParser(
                 comment.date = date
             }
 
+            // Сайт перешёл с <p class="content"> на <div class="content">
             val contentNode = Parser.findNode(commentNode, "p", "class", "content")
+                ?: Parser.findNode(commentNode, "div", "class", "content")
             content = Parser.getHtml(contentNode, true)
             comment.content = ApiUtils.fromHtml(content)
             comment.level = level
