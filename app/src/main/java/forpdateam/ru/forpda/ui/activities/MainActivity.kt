@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import com.daasuu.ei.Ease
 import com.daasuu.ei.EasingInterpolator
-import com.yandex.metrica.YandexMetrica
 import forpdateam.ru.forpda.App
 import forpdateam.ru.forpda.R
 import forpdateam.ru.forpda.common.DayNightHelper
@@ -239,7 +238,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         super.onStart()
         bottomDrawer.onStart()
         NotificationsService.startAndCheck()
-        YandexMetrica.resumeSession(this)
     }
 
     override fun onResumeFragments() {
@@ -279,7 +277,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     override fun onStop() {
         super.onStop()
         bottomDrawer.onStop()
-        YandexMetrica.pauseSession(this)
     }
 
     override fun onDestroy() {

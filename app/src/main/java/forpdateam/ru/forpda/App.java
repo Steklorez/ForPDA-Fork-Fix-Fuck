@@ -48,8 +48,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.yandex.metrica.YandexMetrica;
-import com.yandex.metrica.YandexMetricaConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -157,9 +155,7 @@ public class App extends android.app.Application {
         super.onCreate();
         instance = this;
         long time = System.currentTimeMillis();
-        YandexMetricaConfig config = YandexMetricaConfig.newConfigBuilder("a94d9236-cdf3-4a5e-af30-d6dbffaea362").build();
-        YandexMetrica.activate(getApplicationContext(), config);
-        YandexMetrica.enableActivityAutoTracking(this);
+        // Yandex Metrica removed: it reported every crash of this fork into the original author's account.
 
         dependencies = new Dependencies(this);
 
@@ -167,7 +163,6 @@ public class App extends android.app.Application {
         RxJavaPlugins.setErrorHandler(throwable -> {
             Log.d("SUKA", "RxJavaPlugins errorHandler " + throwable);
             throwable.printStackTrace();
-            YandexMetrica.reportError("Крит " + throwable.getMessage(), throwable);
         });
 
         Disposable disposable = dependencies
@@ -206,7 +201,6 @@ public class App extends android.app.Application {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            YandexMetrica.reportError("VERSIONS_HISTORY", ex);
         }
 
         initImageLoader(this);

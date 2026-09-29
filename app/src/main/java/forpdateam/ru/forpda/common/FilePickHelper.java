@@ -8,7 +8,6 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-import com.yandex.metrica.YandexMetrica;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -77,7 +76,7 @@ public class FilePickHelper {
             }
             requestFile = new RequestFile(name, mimeType, inputStream);
         } catch (Exception e) {
-            YandexMetrica.reportError(e.getMessage(), e);
+            e.printStackTrace();
         }
         return requestFile;
     }

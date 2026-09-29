@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Environment
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.yandex.metrica.YandexMetrica
 import forpdateam.ru.forpda.App
 import forpdateam.ru.forpda.R
 import forpdateam.ru.forpda.common.MimeTypeUtil
@@ -38,7 +37,7 @@ class SystemLinkHandler(
                 ).addFlags(FLAG_ACTIVITY_NEW_TASK)
             )
         } catch (e: ActivityNotFoundException) {
-            YandexMetrica.reportError(e.message.orEmpty(), e)
+            e.printStackTrace()
         }
     }
 
@@ -113,7 +112,7 @@ class SystemLinkHandler(
                         App.get().checkStoragePermission(checkAction, activity)
                     }
                 } catch (ex: Exception) {
-                    YandexMetrica.reportError(ex.message.orEmpty(), ex)
+                    ex.printStackTrace()
                 }
             }, {
                 it.printStackTrace()
@@ -141,7 +140,7 @@ class SystemLinkHandler(
                 ).addFlags(FLAG_ACTIVITY_NEW_TASK)
             )
         } catch (e: ActivityNotFoundException) {
-            YandexMetrica.reportError(e.message.orEmpty(), e)
+            e.printStackTrace()
         }
 
     }

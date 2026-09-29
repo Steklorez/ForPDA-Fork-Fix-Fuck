@@ -190,7 +190,6 @@ dependencies {
     implementation("com.github.permissions-dispatcher:permissionsdispatcher:4.9.2")
     kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.9.2"
 
-    implementation 'com.yandex.android:mobmetricalib:3.13.1'
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
 }

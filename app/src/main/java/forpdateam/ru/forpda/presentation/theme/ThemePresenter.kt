@@ -2,7 +2,6 @@ package forpdateam.ru.forpda.presentation.theme
 
 import android.net.Uri
 import android.util.Log
-import com.yandex.metrica.YandexMetrica
 import forpdateam.ru.forpda.App
 import forpdateam.ru.forpda.R
 import forpdateam.ru.forpda.common.Utils
@@ -601,7 +600,7 @@ class ThemePresenter(
                 }
             }
         } catch (ex: Exception) {
-            YandexMetrica.reportError("${ex.message ?: ex.toString()}; uri $uri", ex)
+            ex.printStackTrace()
         }
         linkHandler.handle(url, router)
     }
