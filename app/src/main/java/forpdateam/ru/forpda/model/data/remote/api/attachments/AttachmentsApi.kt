@@ -51,9 +51,9 @@ class AttachmentsApi(
             file.requestName = "FILE_UPLOAD[]"
             val messageDigest = MessageDigest.getInstance("MD5")
             file.fileStream = file.fileStream.use {
-                val targetArray = ByteArray(it.available()).apply {
-                    it.read(this)
-                }
+                // available() не равен размеру файла для content:// (облако, пикеры) —
+                // читаем поток целиком, иначе уходит пустой/обрезанный файл
+                val targetArray = it.readBytes()
                 messageDigest.update(targetArray)
                 ByteArrayInputStream(targetArray)
             }
