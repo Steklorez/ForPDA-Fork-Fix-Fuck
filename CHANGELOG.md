@@ -2,7 +2,7 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
-## [Unreleased] — "She's breathing"
+## [1.0.2-fff] — "She's breathing"
 
 ### Fixed
 - **News comments** — the comments tab was a blank white screen. 4pda moved comment text from `<p>` to `<div>`, the homemade HTML parser tripped over a null and silently died. Now it reads both.

@@ -41,7 +41,7 @@ See [CHANGELOG.md](CHANGELOG.md). Short version:
 
 ```
 gradlew assembleDevDebug       # ru.forpdateam.forpda.fff.debug, signed with the public debug key
-gradlew assembleStableRelease  # ru.forpdateam.forpda.fff -> ForPDAFFF-1.0.1-fff-b<build>.apk
+gradlew assembleStableRelease  # ru.forpdateam.forpda.fff -> ForPDAFFF-1.0.2-fff.apk
 ```
 
 Package is `ru.forpdateam.forpda.fff`, so it lives next to the original ForPDA, not on top of it.
