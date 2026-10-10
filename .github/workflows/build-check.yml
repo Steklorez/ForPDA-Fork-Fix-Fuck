@@ -25,7 +25,7 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - uses: android-actions/setup-android@v3
+      # The runner image already ships the Android SDK (ANDROID_HOME); AGP fetches missing platforms.
 
       - uses: gradle/actions/setup-gradle@v4
 
