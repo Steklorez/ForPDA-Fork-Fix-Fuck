@@ -30,18 +30,46 @@ See [CHANGELOG.md](CHANGELOG.md). Short version:
 ## Build
 
 - JDK **17** (kapt from Kotlin 1.7 dies on JDK 21 — don't even try)
-- Android SDK with platform 29/34 build-tools
-- `sdk.dir` in `local.properties`
+- Android SDK with platform 29 and build-tools
+- `sdk.dir` in `local.properties` (or `ANDROID_HOME`)
 
 ```
-gradlew assembleDevDebug       # ru.forpdateam.forpda.fff.debug
-gradlew assembleStableRelease  # ru.forpdateam.forpda.fff -> ForPDAFFF-1.0.1-fff.apk
+gradlew assembleDevDebug       # ru.forpdateam.forpda.fff.debug, signed with the public debug key
+gradlew assembleStableRelease  # ru.forpdateam.forpda.fff -> ForPDAFFF-1.0.1-fff-b<build>.apk
 ```
 
 Package is `ru.forpdateam.forpda.fff`, so it lives next to the original ForPDA, not on top of it.
 
+### Your own signing key
+
+Debug builds use the debug key from `keystore.properties` (it is public, same as the original's).
+For a release build with your own key, create `signing/release.keystore.properties`:
+
+```
+RELEASE_STORE_FILE=path/to/your.jks
+RELEASE_STORE_PASSWORD=...
+RELEASE_KEY_ALIAS=...
+RELEASE_KEY_PASSWORD=...
+```
+
+The same four variables are also read from the environment. Without a key the release APK comes out unsigned.
+Never commit your key; `signing/release.*` is git-ignored.
+
+### Official releases
+
+Releases are built by GitHub Actions (`.github/workflows/release.yml`) straight from the sources in this repository,
+on a `v*` tag or by hand. The release key is stored in the repository's Actions secrets and is not part of the sources.
+Pull requests only run a plain debug build without secrets (`build-check.yml`).
+
+The release certificate SHA-256, to check your download against:
+
+```
+FA:31:29:AA:A3:43:38:FE:86:C2:39:25:92:E1:4D:03:A8:0C:1C:85:1D:9C:66:D3:D9:B4:A2:12:ED:CC:88:15
+```
+
 ## Credits
 
+Source of the original: [RadiationX/ForPDA](https://github.com/RadiationX/ForPDA) (GPLv3).
 All the original work — [RadiationX](https://github.com/RadiationX) and the ForPDA team (iSanechek, Морфий, slartus and everyone in the [4pda topic](https://4pda.to/forum/index.php?showtopic=820313)).
 This fork just does the dirty work.
 

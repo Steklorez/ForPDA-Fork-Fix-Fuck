@@ -16,6 +16,16 @@ def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+// Release signing: from the environment (GitHub Actions secrets) or, locally, from signing/release.keystore.properties.
+// The release key is never part of the public sources: without either, the release build comes out unsigned.
+def releasePropertiesFile = rootProject.file("signing/release.keystore.properties")
+def releaseProperties = new Properties()
+if (releasePropertiesFile.exists()) {
+    releasePropertiesFile.withInputStream { releaseProperties.load(it) }
+}
+def releaseValue = { String name -> System.getenv(name) ?: releaseProperties[name] }
+def hasReleaseKey = releaseValue('RELEASE_STORE_FILE') != null
+
 android {
     def fileNaming = "ForPDAFFF"
 
@@ -58,11 +68,13 @@ android {
             keyAlias keystoreProperties['DEBUG_KEY_ALIAS']
             keyPassword keystoreProperties['DEBUG_KEY_PASSWORD']
         }
-        release {
-            storeFile rootProject.file(keystoreProperties['DEBUG_STORE_FILE'])
-            storePassword keystoreProperties['DEBUG_STORE_PASSWORD']
-            keyAlias keystoreProperties['DEBUG_KEY_ALIAS']
-            keyPassword keystoreProperties['DEBUG_KEY_PASSWORD']
+        if (hasReleaseKey) {
+            release {
+                storeFile rootProject.file(releaseValue('RELEASE_STORE_FILE'))
+                storePassword releaseValue('RELEASE_STORE_PASSWORD')
+                keyAlias releaseValue('RELEASE_KEY_ALIAS')
+                keyPassword releaseValue('RELEASE_KEY_PASSWORD')
+            }
         }
     }
 
@@ -75,7 +87,9 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            signingConfig signingConfigs.release
+            if (hasReleaseKey) {
+                signingConfig signingConfigs.release
+            }
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -102,7 +116,7 @@ android {
 
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
-            outputFileName = "${fileNaming}-${versionMajor}.${versionMinor}.${versionPatch}.apk"
+            outputFileName = "${fileNaming}-${versionMajor}.${versionMinor}.${versionPatch}-b${versionBuild}.apk"
         }
     }
 

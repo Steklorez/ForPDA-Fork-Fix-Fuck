@@ -409,8 +409,10 @@
 
     <!-- Notifications -->
     <string name="notification_content_qms_Nick_Count" formatted="false">%s: %d непрочитанных сообщений</string>
-    <string name="notification_content_mention_Title" formatted="false">Ответил Вам в теме \"%s\"</string>
-    <string name="notification_content_theme_Title" formatted="false">Написал сообщение в теме \"%s\"</string>
+    <string name="notification_content_mention_Nick" formatted="false">Ответил Вам: %s</string>
+    <string name="notification_content_theme_Nick" formatted="false">Новое сообщение от %s</string>
+    <string name="notification_content_mention">Вам ответили</string>
+    <string name="notification_content_theme">Новое сообщение</string>
     <string name="notification_content_news">Вам ответили на комментарий на сайте</string>
     <string name="notification_summary_mention">Упоминание</string>
     <string name="notification_summary_qms">Чат QMS</string>
@@ -495,6 +497,9 @@
     <string name="pref_title_pm_qms">Личные сообщения QMS</string>
     <string name="pref_title_app_updates">Обновления программы</string>
     <string name="pref_title_notify">Уведомлять</string>
+    <string name="pref_title_push_mode">Тип уведомлений</string>
+    <string name="pref_push_mode_push">Push (мгновенно, через Google)</string>
+    <string name="pref_push_mode_poll">Фоновая проверка (надёжно, но с задержкой)</string>
 
 
     <!--

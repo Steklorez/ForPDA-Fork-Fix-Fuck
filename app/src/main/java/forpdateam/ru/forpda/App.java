@@ -71,6 +71,7 @@ import forpdateam.ru.forpda.common.simple.SimpleObservable;
 import forpdateam.ru.forpda.notifications.NotificationsJob;
 import forpdateam.ru.forpda.notifications.NotificationsJobCreator;
 import forpdateam.ru.forpda.notifications.NotificationsService;
+import forpdateam.ru.forpda.notifications.push.PushRegistrar;
 import forpdateam.ru.forpda.ui.fragments.TabFragment;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -244,6 +245,9 @@ public class App extends android.app.Application {
         wakeUpFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
         wakeUpFilter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(new WakeUpReceiver(), wakeUpFilter);
+
+        // Ask 4PDA to poke this device through Firebase when something new arrives.
+        PushRegistrar.ensureRegistered(this);
 
         //На каких-то диких калькуляторах может быть ANR, поэтому в фоновый поток
         Observable

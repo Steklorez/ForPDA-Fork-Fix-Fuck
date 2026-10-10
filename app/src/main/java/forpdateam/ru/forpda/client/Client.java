@@ -67,7 +67,7 @@ public class Client implements IWebClient {
 
         clientCookies.put("ngx_mb", mobileCookie);
         if (clearance != null) {
-            clientCookies.put("cf_clearance", parseCookie(clearance));
+            putParsedCookie("cf_clearance", clearance);
         }
 
         if (member_id != null && pass_hash != null) {
@@ -76,12 +76,12 @@ public class Client implements IWebClient {
             authData.setUserId(userId);
 
             //Первичная загрузка кукисов
-            clientCookies.put("member_id", parseCookie(member_id));
-            clientCookies.put("pass_hash", parseCookie(pass_hash));
+            putParsedCookie("member_id", member_id);
+            putParsedCookie("pass_hash", pass_hash);
             if (session_id != null)
-                clientCookies.put("session_id", parseCookie(session_id));
+                putParsedCookie("session_id", session_id);
             if (anonymous != null) {
-                clientCookies.put("anonymous", parseCookie(anonymous));
+                putParsedCookie("anonymous", anonymous);
             }
         } else {
             authData.setState(AuthState.SKIP);
@@ -97,7 +97,17 @@ public class Client implements IWebClient {
     private Cookie parseCookie(String cookieFields) {
         /*Хранение: Url|:|Cookie*/
         String[] fields = cookieFields.split("\\|:\\|");
-        return Cookie.parse(HttpUrl.parse(fields[0]), fields[1]);
+        if (fields.length < 2) return null;
+        HttpUrl url = HttpUrl.parse(fields[0]);
+        return url == null ? null : Cookie.parse(url, fields[1]);
+    }
+
+    /** A saved cookie that no longer parses is dropped: a null in the jar breaks every request. */
+    private void putParsedCookie(String name, String cookieFields) {
+        Cookie cookie = parseCookie(cookieFields);
+        if (cookie != null) {
+            clientCookies.put(name, cookie);
+        }
     }
 
     private String cookieToPref(String url, Cookie cookie) {
@@ -146,7 +156,14 @@ public class Client implements IWebClient {
                 clientCookies.put("ngx_mb", mobileCookie);
             }
 
-            List<Cookie> cookies = new ArrayList<>(clientCookies.values());
+            List<Cookie> cookies = new ArrayList<>();
+            for (Map.Entry<String, Cookie> entry : clientCookies.entrySet()) {
+                if (entry.getValue() == null) {
+                    Log.w(LOG_TAG, "null cookie in the jar: " + entry.getKey());
+                } else {
+                    cookies.add(entry.getValue());
+                }
+            }
             if (external) {
                 for (String privateName : privateHeaders) {
                     for (int i = 0; i < cookies.size(); i++) {

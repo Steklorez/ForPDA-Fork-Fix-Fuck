@@ -22,6 +22,15 @@
         <item>SYSTEM</item>
     </string-array>
 
+    <string-array name="entries_push_mode">
+        <item>@string/pref_push_mode_push</item>
+        <item>@string/pref_push_mode_poll</item>
+    </string-array>
+    <string-array name="entry_values_push_mode">
+        <item>push</item>
+        <item>poll</item>
+    </string-array>
+
     <string-array name="entries_notify_limit">
         <item>10s</item>
         <item>30s</item>

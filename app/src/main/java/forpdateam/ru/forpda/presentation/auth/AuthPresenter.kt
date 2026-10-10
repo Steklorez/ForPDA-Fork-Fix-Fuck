@@ -1,5 +1,6 @@
 package forpdateam.ru.forpda.presentation.auth
 
+import forpdateam.ru.forpda.App
 import forpdateam.ru.forpda.common.mvp.BasePresenter
 import forpdateam.ru.forpda.entity.common.AuthData
 import forpdateam.ru.forpda.entity.common.AuthState
@@ -9,6 +10,7 @@ import forpdateam.ru.forpda.model.AuthHolder
 import forpdateam.ru.forpda.model.SchedulersProvider
 import forpdateam.ru.forpda.model.repository.auth.AuthRepository
 import forpdateam.ru.forpda.model.repository.profile.ProfileRepository
+import forpdateam.ru.forpda.notifications.push.PushRegistrar
 import forpdateam.ru.forpda.presentation.IErrorHandler
 import forpdateam.ru.forpda.presentation.ISystemLinkHandler
 import forpdateam.ru.forpda.presentation.TabRouter
@@ -60,6 +62,8 @@ class AuthPresenter(
                 .doOnSubscribe { viewState.setSendRefreshing(true) }
                 .doAfterTerminate { viewState.setSendRefreshing(false) }
                 .subscribe({
+                    // Registered for push at app start only when already logged in; do it right after login too.
+                    PushRegistrar.ensureRegistered(App.get())
                     viewState.onSuccessAuth()
                     loadProfile("https://4pda.to/forum/index.php?showuser=${authHolder.get().userId}")
                 }, {

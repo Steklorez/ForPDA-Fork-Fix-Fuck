@@ -417,6 +417,13 @@ public class NotificationsService extends Service {
         if (event.fromSite())
             return "ForPDA";
 
+        // Favorites and mentions: the topic goes first, there are many more names than topics you care about.
+        if (event.fromTheme()) {
+            String topic = event.getSourceTitle();
+            if (topic != null && !topic.isEmpty())
+                return topic;
+        }
+
         return event.getUserNick();
     }
 
@@ -425,10 +432,13 @@ public class NotificationsService extends Service {
             return String.format(getString(R.string.notification_content_qms_Nick_Count), event.getSourceTitle(), event.getMsgCount());
 
         if (event.fromTheme()) {
-            if (event.isMention())
-                return String.format(getString(R.string.notification_content_mention_Title), event.getSourceTitle());
+            String nick = event.getUserNick();
+            if (nick == null || nick.isEmpty())
+                return getString(event.isMention() ? R.string.notification_content_mention : R.string.notification_content_theme);
 
-            return String.format(getString(R.string.notification_content_theme_Title), event.getSourceTitle());
+            return String.format(getString(event.isMention()
+                    ? R.string.notification_content_mention_Nick
+                    : R.string.notification_content_theme_Nick), nick);
         }
 
         if (event.fromSite())

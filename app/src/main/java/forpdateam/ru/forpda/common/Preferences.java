@@ -96,6 +96,7 @@ public class Preferences {
             public final static String INDICATOR_ENABLED = PREFIX + "indicator_enabled";
             public final static String AVATARS_ENABLED = PREFIX + "avatars_enabled";
             public final static String LIMIT = PREFIX + "limit_period";
+            public final static String PUSH_MODE = PREFIX + "push_mode";
         }
 
         public static final class Favorites {

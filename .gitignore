@@ -147,3 +147,10 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 /.idea/vcs.xml
+
+# Private migration: reproducibility files are inventoried and explicitly staged.
+*.backup-*
+
+# Release signing key lives only in GitHub secrets / the private repo
+signing/release.*
+*.release.jks
