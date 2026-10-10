@@ -26,6 +26,12 @@ See [CHANGELOG.md](CHANGELOG.md). Short version:
 - Article karma stops throwing exceptions on every open
 - Attachments are read fully before upload
 - Parser patterns are bundled and pinned, the dead remote no longer overrides them
+- Notifications work in the background again (they used to arrive only while the app was open)
+- Instant push notifications through FCM, with the minute check kept as a safety net; Settings → Notifications → Notification type lets you choose push or background check only
+- Notifications for favorites and mentions lead with the topic title, the author goes below
+- Fixed the push receiver ANR, and push now registers right after login
+- Fixed the network error caused by a stale cookie that no longer parsed (`okhttp3.Cookie.name()` on null)
+- Yandex Metrica removed: nothing is reported to the original author's account anymore
 
 ## Build
 
