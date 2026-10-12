@@ -2,6 +2,11 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
+## [1.0.4-fff]
+
+### Changed
+- **App name** — the launcher label is now "ForPDA FFF" (beta: "ForPDA FFF BETA"), so it no longer looks like the original ForPDA next to it.
+
 ## [1.0.3-fff]
 
 ### Changed

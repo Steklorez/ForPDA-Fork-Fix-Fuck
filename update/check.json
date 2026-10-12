@@ -1,8 +1,8 @@
 {
   "update": {
-    "version_code": 303,
+    "version_code": 304,
     "version_build": 0,
-    "version_name": "1.0.3-fff",
+    "version_name": "1.0.4-fff",
     "build_date": "2026-10-12",
     "links": [
       {
@@ -15,7 +15,7 @@
     "added": [],
     "fixed": [],
     "changed": [
-      "Проверка обновлений теперь идёт через репозиторий форка, а не через сервер автора оригинала"
+      "Название приложения: ForPDA FFF"
     ],
     "patternsVersion": 100
   }
