@@ -1,0 +1,22 @@
+{
+  "update": {
+    "version_code": 303,
+    "version_build": 0,
+    "version_name": "1.0.3-fff",
+    "build_date": "2026-10-12",
+    "links": [
+      {
+        "name": "GitHub",
+        "url": "https://github.com/Steklorez/ForPDA-Fork-Fix-Fuck/releases/latest",
+        "type": "site"
+      }
+    ],
+    "important": [],
+    "added": [],
+    "fixed": [],
+    "changed": [
+      "Проверка обновлений теперь идёт через репозиторий форка, а не через сервер автора оригинала"
+    ],
+    "patternsVersion": 100
+  }
+}

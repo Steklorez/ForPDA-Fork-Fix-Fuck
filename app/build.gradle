@@ -30,7 +30,7 @@ android {
     def fileNaming = "ForPDAFFF"
 
     // Bump versionPatchNumber on every release: it feeds versionName, versionCode and the file name.
-    def versionPatchNumber = 2
+    def versionPatchNumber = 3
     def versionNumber = 300 + versionPatchNumber // above the corpse (224), so its update checker shuts up
 
     def versionMajor = "1"

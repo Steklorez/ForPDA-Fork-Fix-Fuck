@@ -115,35 +115,8 @@ class OtherPresenter(
             menuRepository.setLastOpened(item.id)
         } else {
             when (item.id) {
-                MenuRepository.item_link_forum_author -> {
-                    linkHandler.handle("https://4pda.to/forum/index.php?showuser=2556269", router)
-                }
-
-                MenuRepository.item_link_forum_topic -> {
-                    linkHandler.handle("https://4pda.to/forum/index.php?showtopic=820313", router)
-                }
-
-                MenuRepository.item_link_forum_faq -> {
-                    linkHandler.handle(
-                        "http://4pda.to/forum/index.php?s=&showtopic=820313&view=findpost&p=64077514",
-                        router
-                    )
-                }
-
-                MenuRepository.item_link_chat_telegram -> {
-                    systemLinkHandler.handle("https://t.me/forpda_app")
-                }
-
-                MenuRepository.item_link_play_market -> {
-                    systemLinkHandler.handle("https://play.google.com/store/apps/details?id=ru.forpdateam.forpda")
-                }
-
                 MenuRepository.item_link_github -> {
-                    systemLinkHandler.handle("https://github.com/RadiationX/ForPDA")
-                }
-
-                MenuRepository.item_link_bitbucket -> {
-                    systemLinkHandler.handle("https://bitbucket.org/RadiationX/forpda/")
+                    systemLinkHandler.handle("https://github.com/Steklorez/ForPDA-Fork-Fix-Fuck")
                 }
             }
 

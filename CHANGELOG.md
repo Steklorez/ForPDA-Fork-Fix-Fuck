@@ -2,6 +2,11 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
+## [1.0.3-fff]
+
+### Changed
+- **Nothing goes to the original author anymore** — the update and parser-pattern check now reads this repository (`update/check.json`) instead of the original author's Bitbucket. The "Other" menu no longer links to his Telegram, profile, Play Market and Bitbucket pages; only this repository's GitHub is left.
+
 ## [1.0.2-fff] — "She's breathing"
 
 ### Fixed

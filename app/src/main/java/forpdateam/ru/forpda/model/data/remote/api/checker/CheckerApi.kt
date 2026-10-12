@@ -12,13 +12,13 @@ class CheckerApi(
 ) {
 
     fun checkUpdate(): UpdateData = client
-        .get("https://bitbucket.org/RadiationX/apps-updates/raw/master/forpda/check.json")
+        .get("https://raw.githubusercontent.com/Steklorez/ForPDA-Fork-Fix-Fuck/main/update/check.json")
         .let {
             checkerParser.parse(it.body)
         }
 
     fun loadPatterns(): String = client
-        .get("https://bitbucket.org/RadiationX/apps-updates/raw/master/forpda/patterns.json")
+        .get("https://raw.githubusercontent.com/Steklorez/ForPDA-Fork-Fix-Fuck/main/update/patterns.json")
         .body
 
 }

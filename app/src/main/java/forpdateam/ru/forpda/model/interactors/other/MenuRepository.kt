@@ -65,13 +65,7 @@ class MenuRepository(
         )
 
         val GROUP_LINK = arrayOf<Int>(
-            item_link_forum_author,
-            item_link_forum_topic,
-            item_link_forum_faq,
-            item_link_chat_telegram,
-            item_link_play_market,
-            item_link_github,
-            item_link_bitbucket
+            item_link_github
         )
     }
 
@@ -88,13 +82,7 @@ class MenuRepository(
         AppMenuItem(item_notes, Screen.Notes()),
         AppMenuItem(item_forum_rules, Screen.ForumRules()),
         AppMenuItem(item_settings, Screen.Settings()),
-        AppMenuItem(item_link_forum_author),
-        AppMenuItem(item_link_chat_telegram),
-        AppMenuItem(item_link_forum_topic),
-        AppMenuItem(item_link_forum_faq),
-        AppMenuItem(item_link_play_market),
-        AppMenuItem(item_link_github),
-        AppMenuItem(item_link_bitbucket)
+        AppMenuItem(item_link_github)
     )
 
     private val mainGroupSequence = mutableListOf<Int>()
