@@ -73,6 +73,10 @@ The release certificate SHA-256, to check your download against:
 FA:31:29:AA:A3:43:38:FE:86:C2:39:25:92:E1:4D:03:A8:0C:1C:85:1D:9C:66:D3:D9:B4:A2:12:ED:CC:88:15
 ```
 
+## Open source and privacy
+
+All the source code is open (GPLv3), nothing is hidden. No analytics, no trackers, and no data goes to third parties. The app talks only to 4pda.to, GitHub (update check) and, if instant push is on, Google's push service. Pick "Background check" in Settings → Notifications to skip push entirely.
+
 ## Credits
 
 Source of the original: [RadiationX/ForPDA](https://github.com/RadiationX/ForPDA) (GPLv3).
