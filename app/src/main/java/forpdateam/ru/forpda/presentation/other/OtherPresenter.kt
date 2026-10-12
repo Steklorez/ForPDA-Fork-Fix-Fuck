@@ -115,6 +115,10 @@ class OtherPresenter(
             menuRepository.setLastOpened(item.id)
         } else {
             when (item.id) {
+                MenuRepository.item_link_forum_topic -> {
+                    linkHandler.handle("https://4pda.to/forum/index.php?showtopic=1127673&view=findpost&p=145476214", router)
+                }
+
                 MenuRepository.item_link_github -> {
                     systemLinkHandler.handle("https://github.com/Steklorez/ForPDA-Fork-Fix-Fuck")
                 }

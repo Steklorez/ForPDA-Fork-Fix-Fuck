@@ -1,8 +1,8 @@
 {
   "update": {
-    "version_code": 304,
+    "version_code": 305,
     "version_build": 0,
-    "version_name": "1.0.4-fff",
+    "version_name": "1.0.5-fff",
     "build_date": "2026-10-12",
     "links": [
       {
@@ -15,7 +15,7 @@
     "added": [],
     "fixed": [],
     "changed": [
-      "Название приложения: ForPDA FFF"
+      "В меню «Другое» добавлена ссылка на тему приложения на 4pda"
     ],
     "patternsVersion": 100
   }

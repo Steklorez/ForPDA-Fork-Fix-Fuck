@@ -2,6 +2,12 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
+## [1.0.5-fff]
+
+### Changed
+- **Forum topic link** — the "Other" menu has the "Discussion" item again, next to GitHub, and opens this fork's own 4pda topic.
+- **APK name** — the release file is now `ForPDAFFF-1.0.5.apk`, without the `-fff` suffix.
+
 ## [1.0.4-fff]
 
 ### Changed

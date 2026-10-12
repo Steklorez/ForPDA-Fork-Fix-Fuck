@@ -65,6 +65,7 @@ class MenuRepository(
         )
 
         val GROUP_LINK = arrayOf<Int>(
+            item_link_forum_topic,
             item_link_github
         )
     }
@@ -82,6 +83,7 @@ class MenuRepository(
         AppMenuItem(item_notes, Screen.Notes()),
         AppMenuItem(item_forum_rules, Screen.ForumRules()),
         AppMenuItem(item_settings, Screen.Settings()),
+        AppMenuItem(item_link_forum_topic),
         AppMenuItem(item_link_github)
     )
 
