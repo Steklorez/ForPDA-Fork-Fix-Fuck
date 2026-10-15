@@ -1,5 +1,7 @@
 package forpdateam.ru.forpda.ui.fragments.favorites;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.View;
@@ -13,7 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import forpdateam.ru.forpda.App;
 import forpdateam.ru.forpda.R;
@@ -33,8 +37,20 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
     private BaseSectionedAdapter.OnItemClickListener<FavItem> itemClickListener;
     @Nullable
     private List<FavItem> currentItems = null;
+    // Topics that turned from unread to read with the last bindItems: their rows fade to the read look.
+    private final Set<Integer> justRead = new HashSet<>();
 
     public void bindItems(@NotNull List<FavItem> newItems) {
+        justRead.clear();
+        if (currentItems != null) {
+            Set<Integer> wasNew = new HashSet<>();
+            for (FavItem old : currentItems) {
+                if (old.isNew()) wasNew.add(old.getTopicId());
+            }
+            for (FavItem item : newItems) {
+                if (!item.isNew() && wasNew.contains(item.getTopicId())) justRead.add(item.getTopicId());
+            }
+        }
         currentItems = newItems;
         ArrayList<FavItem> pinnedUnread = new ArrayList<>();
         ArrayList<FavItem> itemsUnread = new ArrayList<>();
@@ -145,6 +161,7 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
         TextView title, lastNick, date, desc;
         ImageView forumIcon, lockIcon, pollIcon;
         View dot, topDivider;
+        ValueAnimator readAnimator;
 
         ItemHolder(View v) {
             super(v);
@@ -164,11 +181,19 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
 
         @Override
         public void bind(FavItem item, int section, int relativePosition, int absolutePosition) {
+            if (readAnimator != null) {
+                readAnimator.cancel();
+                readAnimator = null;
+            }
             title.setText(item.getTopicTitle());
 
             title.setTypeface(item.isNew() ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
             title.setTextColor(item.isNew() ? titleColorNew : titleColor);
+            dot.setAlpha(1f);
             dot.setVisibility(showDot && item.isNew() ? View.VISIBLE : View.GONE);
+            if (!item.isNew() && justRead.remove(item.getTopicId())) {
+                animateRead();
+            }
 
             forumIcon.setVisibility(item.isForum() ? View.VISIBLE : View.GONE);
 
@@ -185,6 +210,22 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
             if (desc.getVisibility() == View.VISIBLE) {
                 desc.setVisibility(View.GONE);
             }
+        }
+
+        /** Unread look fades into the read look: title color and weight, then the dot. */
+        private void animateRead() {
+            title.setTypeface(Typeface.DEFAULT_BOLD);
+            title.setTextColor(titleColorNew);
+            if (showDot) dot.setVisibility(View.VISIBLE);
+            readAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), titleColorNew, titleColor);
+            readAnimator.setDuration(350);
+            readAnimator.addUpdateListener(animation -> {
+                title.setTextColor((int) animation.getAnimatedValue());
+                float fraction = animation.getAnimatedFraction();
+                if (fraction > 0.5f) title.setTypeface(Typeface.DEFAULT);
+                dot.setAlpha(1f - fraction);
+            });
+            readAnimator.start();
         }
 
         @Override

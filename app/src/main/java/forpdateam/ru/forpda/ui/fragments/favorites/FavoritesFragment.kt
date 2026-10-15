@@ -251,20 +251,12 @@ class FavoritesFragment : RecyclerFragment(), FavoritesView {
             .show()
     }
 
-    override fun onMarkAllFavoritesReadProgress(processed: Int, total: Int) {
-        setSubtitle(getString(R.string.fav_mark_all_read_progress, processed, total))
-    }
-
     override fun onMarkAllFavoritesReadFinished(success: Int, failed: Int) {
         markingRead = false
         markReadMenuItem?.isEnabled = true
-        setSubtitle(paginationHelper.title)
-        val message = if (failed > 0) {
-            getString(R.string.fav_mark_all_read_result_with_errors, success, failed)
-        } else {
-            getString(R.string.fav_mark_all_read_result, success)
+        if (failed > 0) {
+            Toast.makeText(context, getString(R.string.fav_mark_all_read_failed, failed), Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onLoadFavorites(data: FavData) {

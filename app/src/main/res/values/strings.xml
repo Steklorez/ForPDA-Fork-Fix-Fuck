@@ -286,9 +286,7 @@
     <string name="fav_mark_all_read">Отметить все прочитанными</string>
     <string name="fav_mark_all_read_title">Отметить все прочитанными?</string>
     <string name="fav_mark_all_read_confirm">Будет отмечено прочитанными тем: %1$d. Это займёт некоторое время, список обновляется по ходу.</string>
-    <string name="fav_mark_all_read_progress">Отмечаем %1$d из %2$d</string>
-    <string name="fav_mark_all_read_result">Прочитано: %1$d</string>
-    <string name="fav_mark_all_read_result_with_errors">Прочитано: %1$d, ошибок: %2$d</string>
+    <string name="fav_mark_all_read_failed">Не удалось отметить тем: %1$d</string>
     <string name="fav_mark_all_read_nothing">Нет непрочитанных тем</string>
     <string name="fav_pin">Закрепить</string>
     <string name="fav_sort_last_post">Последнее сообщение</string>

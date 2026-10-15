@@ -187,7 +187,6 @@ class FavoritesPresenter(
             .subscribe({
                 success = it.success
                 failed = it.failed
-                viewState.onMarkAllFavoritesReadProgress(it.processed, it.total)
             }, {
                 errorHandler.handle(it)
             })

@@ -258,9 +258,7 @@
     <string name="fav_mark_all_read">Mark all as read</string>
     <string name="fav_mark_all_read_title">Mark all as read?</string>
     <string name="fav_mark_all_read_confirm">%1$d topics will be marked as read. It takes a while, the list updates as it goes.</string>
-    <string name="fav_mark_all_read_progress">Marking %1$d of %2$d</string>
-    <string name="fav_mark_all_read_result">Marked as read: %1$d</string>
-    <string name="fav_mark_all_read_result_with_errors">Marked as read: %1$d, errors: %2$d</string>
+    <string name="fav_mark_all_read_failed">Could not mark topics: %1$d</string>
     <string name="fav_mark_all_read_nothing">No unread topics</string>
     <string name="fav_pin">Pin</string>
     <string name="fav_sort_last_post">Last post</string>

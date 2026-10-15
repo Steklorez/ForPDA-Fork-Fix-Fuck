@@ -33,8 +33,6 @@ interface FavoritesView : IBaseView {
     @StateStrategyType(SkipStrategy::class)
     fun showMarkAllFavoritesReadConfirm(count: Int)
 
-    fun onMarkAllFavoritesReadProgress(processed: Int, total: Int)
-
     @StateStrategyType(SkipStrategy::class)
     fun onMarkAllFavoritesReadFinished(success: Int, failed: Int)
 
