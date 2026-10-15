@@ -72,6 +72,7 @@ import forpdateam.ru.forpda.notifications.NotificationsJob;
 import forpdateam.ru.forpda.notifications.NotificationsJobCreator;
 import forpdateam.ru.forpda.notifications.NotificationsService;
 import forpdateam.ru.forpda.notifications.push.PushRegistrar;
+import forpdateam.ru.forpda.common.TimeZoneSync;
 import forpdateam.ru.forpda.ui.fragments.TabFragment;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -248,6 +249,15 @@ public class App extends android.app.Application {
 
         // Ask 4PDA to poke this device through Firebase when something new arrives.
         PushRegistrar.ensureRegistered(this);
+
+        // Keep the forum profile time zone equal to the device one, so dates are not shifted.
+        TimeZoneSync.ensureSynced(this);
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                TimeZoneSync.ensureSynced(context);
+            }
+        }, new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED));
 
         //На каких-то диких калькуляторах может быть ANR, поэтому в фоновый поток
         Observable

@@ -11,6 +11,7 @@ import forpdateam.ru.forpda.model.SchedulersProvider
 import forpdateam.ru.forpda.model.repository.auth.AuthRepository
 import forpdateam.ru.forpda.model.repository.profile.ProfileRepository
 import forpdateam.ru.forpda.notifications.push.PushRegistrar
+import forpdateam.ru.forpda.common.TimeZoneSync
 import forpdateam.ru.forpda.presentation.IErrorHandler
 import forpdateam.ru.forpda.presentation.ISystemLinkHandler
 import forpdateam.ru.forpda.presentation.TabRouter
@@ -64,6 +65,7 @@ class AuthPresenter(
                 .subscribe({
                     // Registered for push at app start only when already logged in; do it right after login too.
                     PushRegistrar.ensureRegistered(App.get())
+                    TimeZoneSync.ensureSynced(App.get())
                     viewState.onSuccessAuth()
                     loadProfile("https://4pda.to/forum/index.php?showuser=${authHolder.get().userId}")
                 }, {

@@ -77,6 +77,8 @@ FA:31:29:AA:A3:43:38:FE:86:C2:39:25:92:E1:4D:03:A8:0C:1C:85:1D:9C:66:D3:D9:B4:A2
 
 All the source code is open (GPLv3), nothing is hidden. No analytics, no trackers, and no data goes to third parties. The app talks only to 4pda.to, GitHub (update check) and, if instant push is on, Google's push service. Pick "Background check" in Settings → Notifications to skip push entirely.
 
+One more thing it does on your forum profile: after login the app sets the profile's "Time zone" to the phone's zone (once, and again only if the phone's zone changes), because the forum prints dates in the profile zone. No other profile setting is touched.
+
 ## Credits
 
 Source of the original: [RadiationX/ForPDA](https://github.com/RadiationX/ForPDA) (GPLv3).

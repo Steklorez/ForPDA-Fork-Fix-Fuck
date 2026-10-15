@@ -7,6 +7,8 @@ All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` bra
 ### Changed
 - **Forum topic link** — the "Other" menu has the "Discussion" item again, next to GitHub, and opens this fork's own 4pda topic.
 - **APK name** — the release file is now `ForPDAFFF-1.0.5.apk`, without the `-fff` suffix.
+### Fixed
+- **Shifted dates and times** — the forum prints every date in the time zone of your forum profile, and the app shows it as is, so a phone in another zone saw times off by hours. After login (and again only when the phone's zone or the account changes) the app copies the device's UTC offset into the profile's "Time zone" setting of the forum, leaves all other profile settings as they were, and remembers it did so. Only the zone, daylight saving and auto-zone switch are touched.
 
 ## [1.0.4-fff]
 
