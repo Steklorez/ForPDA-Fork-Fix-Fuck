@@ -74,6 +74,40 @@ class FavoritesRepository(
         .runInIoToUi()
 
 
+    /**
+     * Marks every unread favorite topic as read, one by one: the server first, then the local cache,
+     * so the list shows each topic turning read right when it happens.
+     */
+    fun markAllUnreadRead(): Observable<MarkReadProgress> = Observable
+        .create<MarkReadProgress> { emitter ->
+            val targets = favoritesCache.getItems().filter { it.isNew && !it.isForum && it.topicId > 0 }
+            var success = 0
+            var failed = 0
+            targets.forEachIndexed { index, target ->
+                if (emitter.isDisposed) return@create
+                if (favoritesApi.markTopicRead(target.topicId)) {
+                    success++
+                    favoritesCache.getItemByTopicId(target.topicId)?.also {
+                        it.isNew = false
+                        favoritesCache.updateItem(it)
+                    }
+                    countersHolder.set(countersHolder.get().apply {
+                        favorites = maxOf(0, favorites - 1)
+                    })
+                } else {
+                    failed++
+                }
+                emitter.onNext(MarkReadProgress(index + 1, targets.size, success, failed))
+            }
+            emitter.onComplete()
+        }
+        .runInIoToUi()
+
+    fun countUnread(): Single<Int> = Single
+        .fromCallable { favoritesCache.getItems().count { it.isNew && !it.isForum && it.topicId > 0 } }
+        .runInIoToUi()
+
+
     fun handleEvent(event: TabNotification): Single<Int> = Single
         .fromCallable {
             val favItems = favoritesCache.getItems()
@@ -154,3 +188,5 @@ class FavoritesRepository(
         return newCount
     }
 }
+
+class MarkReadProgress(val processed: Int, val total: Int, val success: Int, val failed: Int)

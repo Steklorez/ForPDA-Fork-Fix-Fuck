@@ -156,6 +156,44 @@ class FavoritesPresenter(
             .untilDestroy()
     }
 
+    private var markingRead = false
+
+    /** Asks the view to confirm: how many unread topics would be marked. */
+    fun requestMarkAllFavoritesRead() {
+        if (markingRead) return
+        favoritesRepository
+            .countUnread()
+            .subscribe({
+                viewState.showMarkAllFavoritesReadConfirm(it)
+            }, {
+                errorHandler.handle(it)
+            })
+            .untilDestroy()
+    }
+
+    fun markAllFavoritesRead() {
+        if (markingRead) return
+        markingRead = true
+        var success = 0
+        var failed = 0
+        favoritesRepository
+            .markAllUnreadRead()
+            .doOnSubscribe { viewState.setRefreshing(true) }
+            .doAfterTerminate {
+                markingRead = false
+                viewState.setRefreshing(false)
+                viewState.onMarkAllFavoritesReadFinished(success, failed)
+            }
+            .subscribe({
+                success = it.success
+                failed = it.failed
+                viewState.onMarkAllFavoritesReadProgress(it.processed, it.total)
+            }, {
+                errorHandler.handle(it)
+            })
+            .untilDestroy()
+    }
+
     fun markAllRead() {
         forumRepository
             .markAllRead()

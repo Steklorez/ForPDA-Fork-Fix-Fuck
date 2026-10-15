@@ -5,6 +5,8 @@ import forpdateam.ru.forpda.entity.remote.favorites.FavData
 import forpdateam.ru.forpda.entity.remote.favorites.FavItem
 import forpdateam.ru.forpda.model.data.remote.IWebClient
 import forpdateam.ru.forpda.model.data.remote.api.NetworkRequest
+import forpdateam.ru.forpda.client.OkHttpResponseException
+import java.io.IOException
 import java.util.Collections
 
 /**
@@ -98,7 +100,35 @@ class FavoritesApi(
         return favoritesParser.checkIsComplete(response.body)
     }
 
+    /**
+     * Marks one topic as read on the forum: opening its "last post" link is what the site counts as
+     * having read it. Pauses before every call and retries on flood limits and server hiccups.
+     */
+    fun markTopicRead(topicId: Int): Boolean {
+        val url = "https://4pda.to/forum/index.php?showtopic=$topicId&view=getlastpost"
+        var attempt = 0
+        while (attempt < READ_MAX_ATTEMPTS) {
+            Thread.sleep(DELAY_BETWEEN_CALLS_MS)
+            try {
+                webClient.get(url)
+                return true
+            } catch (ex: Exception) {
+                val retry = ex is IOException ||
+                        (ex is OkHttpResponseException && (ex.code == 429 || ex.code == 404 || ex.code in 500..599))
+                attempt++
+                if (!retry || attempt >= READ_MAX_ATTEMPTS) return false
+                Thread.sleep(minOf(READ_BACKOFF_BASE_MS * (1L shl (attempt - 1)), READ_BACKOFF_CAP_MS))
+            }
+        }
+        return false
+    }
+
     companion object {
+
+        private const val DELAY_BETWEEN_CALLS_MS = 300L
+        private const val READ_MAX_ATTEMPTS = 4
+        private const val READ_BACKOFF_BASE_MS = 2_500L
+        private const val READ_BACKOFF_CAP_MS = 10_000L
 
         const val ACTION_EDIT_SUB_TYPE = 0
         const val ACTION_EDIT_PIN_STATE = 1

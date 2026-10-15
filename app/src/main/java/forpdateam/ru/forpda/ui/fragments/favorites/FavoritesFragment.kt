@@ -46,6 +46,9 @@ class FavoritesFragment : RecyclerFragment(), FavoritesView {
 
     private lateinit var paginationHelper: PaginationHelper
 
+    private var markReadMenuItem: MenuItem? = null
+    private var markingRead = false
+
     private lateinit var dialog: BottomSheetDialog
     private lateinit var sortingView: ViewGroup
     private lateinit var keySpinner: Spinner
@@ -217,10 +220,51 @@ class FavoritesFragment : RecyclerFragment(), FavoritesView {
                 false
             }
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        markReadMenuItem = menu.add(R.string.fav_mark_all_read)
+            .setIcon(R.drawable.ic_toolbar_done)
+            .setOnMenuItemClickListener {
+                hideKeyboard()
+                if (!markingRead) presenter.requestMarkAllFavoritesRead()
+                false
+            }
+            .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
     }
 
     override fun onMarkAllRead() {
         Toast.makeText(context, R.string.action_complete, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showMarkAllFavoritesReadConfirm(count: Int) {
+        if (count <= 0) {
+            Toast.makeText(context, R.string.fav_mark_all_read_nothing, Toast.LENGTH_SHORT).show()
+            return
+        }
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.fav_mark_all_read_title)
+            .setMessage(getString(R.string.fav_mark_all_read_confirm, count))
+            .setPositiveButton(R.string.yes) { _, _ ->
+                markingRead = true
+                markReadMenuItem?.isEnabled = false
+                presenter.markAllFavoritesRead()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    override fun onMarkAllFavoritesReadProgress(processed: Int, total: Int) {
+        setSubtitle(getString(R.string.fav_mark_all_read_progress, processed, total))
+    }
+
+    override fun onMarkAllFavoritesReadFinished(success: Int, failed: Int) {
+        markingRead = false
+        markReadMenuItem?.isEnabled = true
+        setSubtitle(paginationHelper.title)
+        val message = if (failed > 0) {
+            getString(R.string.fav_mark_all_read_result_with_errors, success, failed)
+        } else {
+            getString(R.string.fav_mark_all_read_result, success)
+        }
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onLoadFavorites(data: FavData) {

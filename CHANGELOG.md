@@ -2,6 +2,11 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
+## [1.0.6-fff]
+
+### Added
+- **Mark all favorites as read** — a tick in the toolbar of Favorites. It asks for confirmation, then walks through every unread topic in the background (a spinner on top and "Marking 5 of 33" in the subtitle), marks each one read on the forum and turns it read in the list right when it happens.
+
 ## [1.0.5-fff]
 
 ### Changed
