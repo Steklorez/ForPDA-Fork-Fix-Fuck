@@ -5,7 +5,11 @@ All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` bra
 ## [1.0.6-fff]
 
 ### Added
-- **Mark all favorites as read** — a tick in the toolbar of Favorites. It asks for confirmation, then walks through every unread topic in the background (just a spinner on top), marks each one read on the forum and, right when it happens, fades it to the read look in the list.
+- **Mark all favorites as read** — a tick in the toolbar of Favorites. A short "N of M will be marked as read" confirmation, then every unread topic gets a small spinner on its right; the app walks through them in the background, marks each one read on the forum and, right when it happens, the spinner goes away and the title fades to the read look.
+- **"Sign in required" plate** — the Forum and Favorites screens show a centered plate instead of an empty screen and a "Google Captcha" toast when you are not signed in. Tap it to open the sign-in screen; the list loads in the background right after signing in.
+
+### Fixed
+- **Unread badge of a QMS chat stayed** — opening a chat straight from a notification (or the 4PDA system messages) did not clear its unread counter on the tab and in Contacts. Opening a chat now resets it.
 
 ## [1.0.5-fff]
 

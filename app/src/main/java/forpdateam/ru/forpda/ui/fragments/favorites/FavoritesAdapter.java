@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +40,8 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
     private List<FavItem> currentItems = null;
     // Topics that turned from unread to read with the last bindItems: their rows fade to the read look.
     private final Set<Integer> justRead = new HashSet<>();
+    // Unread topics being marked as read right now: each shows a small spinner until it turns read.
+    private final Set<Integer> marking = new HashSet<>();
 
     public void bindItems(@NotNull List<FavItem> newItems) {
         justRead.clear();
@@ -52,6 +55,9 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
             }
         }
         currentItems = newItems;
+        for (FavItem item : newItems) {
+            if (!item.isNew()) marking.remove(item.getTopicId());
+        }
         ArrayList<FavItem> pinnedUnread = new ArrayList<>();
         ArrayList<FavItem> itemsUnread = new ArrayList<>();
         ArrayList<FavItem> pinned = new ArrayList<>();
@@ -84,6 +90,23 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
         }
         addSection(titleTopics, otherItems);
         notifyDataSetChanged();
+    }
+
+    public void startMarking() {
+        marking.clear();
+        if (currentItems != null) {
+            for (FavItem item : currentItems) {
+                if (item.isNew() && !item.isForum() && item.getTopicId() > 0) marking.add(item.getTopicId());
+            }
+            bindItems(currentItems);
+        }
+    }
+
+    public void stopMarking() {
+        marking.clear();
+        if (currentItems != null) {
+            bindItems(currentItems);
+        }
     }
 
     public void setShowDot(boolean showDot) {
@@ -161,11 +184,13 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
         TextView title, lastNick, date, desc;
         ImageView forumIcon, lockIcon, pollIcon;
         View dot, topDivider;
+        ProgressBar progress;
         ValueAnimator readAnimator;
 
         ItemHolder(View v) {
             super(v);
             dot = v.findViewById(R.id.topic_item_dot);
+            progress = v.findViewById(R.id.topic_item_progress);
             topDivider = v.findViewById(R.id.topic_item_top_divider);
             title = v.findViewById(R.id.topic_item_title);
             desc = v.findViewById(R.id.topic_item_desc);
@@ -190,7 +215,9 @@ public class FavoritesAdapter extends BaseSectionedAdapter<FavItem, BaseSectione
             title.setTypeface(item.isNew() ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
             title.setTextColor(item.isNew() ? titleColorNew : titleColor);
             dot.setAlpha(1f);
-            dot.setVisibility(showDot && item.isNew() ? View.VISIBLE : View.GONE);
+            boolean working = item.isNew() && marking.contains(item.getTopicId());
+            progress.setVisibility(working ? View.VISIBLE : View.GONE);
+            dot.setVisibility(showDot && item.isNew() && !working ? View.VISIBLE : View.GONE);
             if (!item.isNew() && justRead.remove(item.getTopicId())) {
                 animateRead();
             }

@@ -103,8 +103,12 @@ class FavoritesRepository(
         }
         .runInIoToUi()
 
-    fun countUnread(): Single<Int> = Single
-        .fromCallable { favoritesCache.getItems().count { it.isNew && !it.isForum && it.topicId > 0 } }
+    /** Unread topics and all topics (forums excluded) in the favorites cache. */
+    fun countUnread(): Single<Pair<Int, Int>> = Single
+        .fromCallable {
+            val topics = favoritesCache.getItems().filter { !it.isForum && it.topicId > 0 }
+            Pair(topics.count { it.isNew }, topics.size)
+        }
         .runInIoToUi()
 
 

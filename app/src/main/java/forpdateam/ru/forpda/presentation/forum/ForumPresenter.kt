@@ -2,7 +2,9 @@ package forpdateam.ru.forpda.presentation.forum
 
 import forpdateam.ru.forpda.common.Utils
 import forpdateam.ru.forpda.common.mvp.BasePresenter
+import forpdateam.ru.forpda.entity.common.AuthState
 import forpdateam.ru.forpda.entity.remote.forum.ForumItemTree
+import forpdateam.ru.forpda.model.AuthHolder
 import forpdateam.ru.forpda.model.data.remote.api.favorites.FavoritesApi
 import forpdateam.ru.forpda.model.repository.faviorites.FavoritesRepository
 import forpdateam.ru.forpda.model.repository.forum.ForumRepository
@@ -19,6 +21,7 @@ import moxy.InjectViewState
 class ForumPresenter(
     private val forumRepository: ForumRepository,
     private val favoritesRepository: FavoritesRepository,
+    private val authHolder: AuthHolder,
     private val router: TabRouter,
     private val errorHandler: IErrorHandler
 ) : BasePresenter<ForumView>() {
@@ -27,11 +30,34 @@ class ForumPresenter(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        getCacheForums()
-        loadForums()
+        // The forum list needs an account: without one the site answers with a captcha.
+        // Show a "sign in" plate instead, and load the list in the background right after signing in.
+        authHolder
+            .observe()
+            .subscribe {
+                val authorized = it.state == AuthState.AUTH
+                if (authorized == this.authorized) return@subscribe
+                this.authorized = authorized
+                viewState.showNeedAuth(!authorized)
+                if (authorized) {
+                    getCacheForums()
+                    loadForums()
+                }
+            }
+            .untilDestroy()
+    }
+
+    private var authorized: Boolean? = null
+
+    fun onNeedAuthClick() {
+        router.navigateTo(Screen.Auth())
     }
 
     fun loadForums() {
+        if (authorized != true) {
+            viewState.setRefreshing(false)
+            return
+        }
         forumRepository
             .getForums()
             .doOnSubscribe { viewState.setRefreshing(true) }

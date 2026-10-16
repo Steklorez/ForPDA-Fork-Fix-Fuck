@@ -31,11 +31,12 @@ interface FavoritesView : IBaseView {
     fun onMarkAllRead()
 
     @StateStrategyType(SkipStrategy::class)
-    fun showMarkAllFavoritesReadConfirm(count: Int)
+    fun showMarkAllFavoritesReadConfirm(unread: Int, total: Int)
 
     @StateStrategyType(SkipStrategy::class)
     fun onMarkAllFavoritesReadFinished(success: Int, failed: Int)
 
+    fun showNeedAuth(show: Boolean)
     fun setShowDot(enabled: Boolean)
     fun setUnreadTop(unreadTop: Boolean)
 }

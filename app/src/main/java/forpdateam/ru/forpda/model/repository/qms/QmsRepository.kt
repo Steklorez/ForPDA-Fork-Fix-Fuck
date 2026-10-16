@@ -86,7 +86,28 @@ class QmsRepository(
     //Chat
     fun getChat(userId: Int, themeId: Int): Single<QmsChatModel> = Single
         .fromCallable { qmsApi.getChat(userId, themeId) }
+        .doOnSuccess { runCatching { markChatRead(userId, themeId) } }
         .runInIoToUi()
+
+    /**
+     * Opening a chat reads it. The server tells the app about that only as an event, and only the
+     * themes the app already knows get their counter reset, so a chat opened straight from a
+     * notification (or the 4PDA system messages) kept its unread badge. Reset it here as well.
+     */
+    private fun markChatRead(userId: Int, themeId: Int) {
+        val dialog = qmsCache.getAllThemes().firstOrNull { d -> d.themes.any { it.id == themeId } }
+        if (dialog != null) {
+            dialog.themes.firstOrNull { it.id == themeId }?.countNew = 0
+            qmsCache.saveThemes(dialog)
+        }
+        val contacts = qmsCache.getContacts()
+        val contact = contacts.firstOrNull { it.id == userId } ?: return
+        val newCount = dialog?.themes?.sumOf { it.countNew } ?: 0
+        if (contact.count == newCount) return
+        contact.count = newCount
+        qmsCache.updateContact(contact)
+        countersHolder.set(countersHolder.get().also { it.qms = contacts.sumOf { c -> c.count } })
+    }
 
     fun sendNewTheme(
         nick: String,

@@ -1,5 +1,7 @@
 package forpdateam.ru.forpda.presentation.favorites
 
+import forpdateam.ru.forpda.entity.common.AuthState
+import forpdateam.ru.forpda.model.AuthHolder
 import android.util.Log
 import forpdateam.ru.forpda.common.Utils
 import forpdateam.ru.forpda.common.mvp.BasePresenter
@@ -34,11 +36,13 @@ class FavoritesPresenter(
     private val router: TabRouter,
     private val linkHandler: ILinkHandler,
     private val countersHolder: CountersHolder,
+    private val authHolder: AuthHolder,
     private val errorHandler: IErrorHandler
 ) : BasePresenter<FavoritesView>() {
 
 
     private var currentSt = 0
+    private var authorized: Boolean? = null
     private var loadAll = listsPreferencesHolder.getFavLoadAll()
     private var sorting: Sorting = Sorting(
         listsPreferencesHolder.getSortingKey(),
@@ -49,6 +53,21 @@ class FavoritesPresenter(
         super.onFirstViewAttach()
 
         viewState.initSorting(sorting)
+
+        // Without an account the site answers with a captcha: show a "sign in" plate instead,
+        // and refresh in the background right after signing in.
+        authHolder
+            .observe()
+            .subscribe {
+                val authorized = it.state == AuthState.AUTH
+                if (authorized == this.authorized) return@subscribe
+                val wasKnown = this.authorized != null
+                this.authorized = authorized
+                viewState.showNeedAuth(!authorized)
+                if (authorized && wasKnown) loadFavorites(0)
+            }
+            .untilDestroy()
+
 
         listsPreferencesHolder
             .observeFavLoadAll()
@@ -123,6 +142,7 @@ class FavoritesPresenter(
 
     fun loadFavorites(pageNum: Int) {
         currentSt = pageNum
+        if (authHolder.get().state != AuthState.AUTH) return
         favoritesRepository
             .loadFavorites(currentSt, loadAll, sorting)
             .doOnSubscribe { viewState.setRefreshing(true) }
@@ -159,12 +179,16 @@ class FavoritesPresenter(
     private var markingRead = false
 
     /** Asks the view to confirm: how many unread topics would be marked. */
+    fun onNeedAuthClick() {
+        router.navigateTo(Screen.Auth())
+    }
+
     fun requestMarkAllFavoritesRead() {
         if (markingRead) return
         favoritesRepository
             .countUnread()
             .subscribe({
-                viewState.showMarkAllFavoritesReadConfirm(it)
+                viewState.showMarkAllFavoritesReadConfirm(it.first, it.second)
             }, {
                 errorHandler.handle(it)
             })
@@ -178,10 +202,8 @@ class FavoritesPresenter(
         var failed = 0
         favoritesRepository
             .markAllUnreadRead()
-            .doOnSubscribe { viewState.setRefreshing(true) }
             .doAfterTerminate {
                 markingRead = false
-                viewState.setRefreshing(false)
                 viewState.onMarkAllFavoritesReadFinished(success, failed)
             }
             .subscribe({

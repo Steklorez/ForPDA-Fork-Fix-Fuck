@@ -92,6 +92,7 @@ class FavoritesFragment : RecyclerFragment(), FavoritesView {
             App.get().Di().router,
             App.get().Di().linkHandler,
             App.get().Di().countersHolder,
+            App.get().Di().authHolder,
             App.get().Di().errorHandler
         )
     }
@@ -230,21 +231,25 @@ class FavoritesFragment : RecyclerFragment(), FavoritesView {
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
     }
 
+    override fun showNeedAuth(show: Boolean) {
+        showNeedAuthPlate(show) { presenter.onNeedAuthClick() }
+    }
+
     override fun onMarkAllRead() {
         Toast.makeText(context, R.string.action_complete, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showMarkAllFavoritesReadConfirm(count: Int) {
-        if (count <= 0) {
+    override fun showMarkAllFavoritesReadConfirm(unread: Int, total: Int) {
+        if (unread <= 0) {
             Toast.makeText(context, R.string.fav_mark_all_read_nothing, Toast.LENGTH_SHORT).show()
             return
         }
         AlertDialog.Builder(requireContext())
-            .setTitle(R.string.fav_mark_all_read_title)
-            .setMessage(getString(R.string.fav_mark_all_read_confirm, count))
-            .setPositiveButton(R.string.yes) { _, _ ->
+            .setMessage(getString(R.string.fav_mark_all_read_confirm, unread, total))
+            .setPositiveButton(R.string.ok) { _, _ ->
                 markingRead = true
                 markReadMenuItem?.isEnabled = false
+                adapter.startMarking()
                 presenter.markAllFavoritesRead()
             }
             .setNegativeButton(R.string.cancel, null)
@@ -254,6 +259,7 @@ class FavoritesFragment : RecyclerFragment(), FavoritesView {
     override fun onMarkAllFavoritesReadFinished(success: Int, failed: Int) {
         markingRead = false
         markReadMenuItem?.isEnabled = true
+        adapter.stopMarking()
         if (failed > 0) {
             Toast.makeText(context, getString(R.string.fav_mark_all_read_failed, failed), Toast.LENGTH_SHORT).show()
         }

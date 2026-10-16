@@ -26,6 +26,8 @@
     <string name="default_s">По умолчанию</string>
     <string name="pref_lang_title">Язык</string>
     <string name="ok">Ок</string>
+    <string name="need_auth_title">Нужна авторизация</string>
+    <string name="need_auth_desc">Нажмите, чтобы войти</string>
     <string name="yes">Да</string>
     <string name="cancel">Отмена</string>
     <string name="no">Нет</string>
@@ -284,8 +286,7 @@
     <string name="fav_subscribe_pinned">При изменении первого поста</string>
     <string name="fav_unpin">Открепить</string>
     <string name="fav_mark_all_read">Отметить все прочитанными</string>
-    <string name="fav_mark_all_read_title">Отметить все прочитанными?</string>
-    <string name="fav_mark_all_read_confirm">Будет отмечено прочитанными тем: %1$d. Это займёт некоторое время, список обновляется по ходу.</string>
+    <string name="fav_mark_all_read_confirm">Будет отмечено прочитанными: %1$d из %2$d</string>
     <string name="fav_mark_all_read_failed">Не удалось отметить тем: %1$d</string>
     <string name="fav_mark_all_read_nothing">Нет непрочитанных тем</string>
     <string name="fav_pin">Закрепить</string>

@@ -49,6 +49,15 @@
             android:layout_height="16dp"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_lock" />
+        <ProgressBar
+            android:id="@+id/topic_item_progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="1dp"
+            android:indeterminateTint="?attr/second_text_color"
+            android:visibility="gone"/>
         <View
             android:id="@+id/topic_item_dot"
             android:layout_width="8dp"

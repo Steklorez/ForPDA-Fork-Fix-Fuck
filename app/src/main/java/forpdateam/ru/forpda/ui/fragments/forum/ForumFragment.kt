@@ -73,6 +73,7 @@ class ForumFragment : TabFragment(), ForumView {
     fun providePresenter(): ForumPresenter = ForumPresenter(
         App.get().Di().forumRepository,
         App.get().Di().favoritesRepository,
+        App.get().Di().authHolder,
         App.get().Di().router,
         App.get().Di().errorHandler
     )
@@ -152,6 +153,10 @@ class ForumFragment : TabFragment(), ForumView {
                 openMarkAllReadDialog()
                 false
             }
+    }
+
+    override fun showNeedAuth(show: Boolean) {
+        showNeedAuthPlate(show) { presenter.onNeedAuthClick() }
     }
 
     override fun showForums(forumRoot: ForumItemTree) {

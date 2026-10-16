@@ -14,6 +14,7 @@ import moxy.viewstate.strategy.StateStrategyType
 interface ForumView : IBaseView {
     fun showForums(forumRoot: ForumItemTree)
     fun scrollToForum(id: Int)
+    fun showNeedAuth(show: Boolean)
 
     @StateStrategyType(SkipStrategy::class)
     fun onMarkRead()

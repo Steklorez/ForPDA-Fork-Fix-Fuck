@@ -1,5 +1,6 @@
 package forpdateam.ru.forpda.ui.fragments
 
+import forpdateam.ru.forpda.ui.views.FunnyContent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -415,6 +416,23 @@ open class TabFragment : MvpAppCompatFragment() {
 
     protected fun stopRefreshing() {
         contentController.stopRefreshing()
+    }
+
+    /** A centered "sign in" plate for screens that make no sense without an account. */
+    protected fun showNeedAuthPlate(show: Boolean, onClick: () -> Unit) {
+        if (show) {
+            if (!contentController.contains(ContentController.TAG_NEED_AUTH)) {
+                val plate = FunnyContent(context)
+                    .setImage(R.drawable.ic_account_circle)
+                    .setTitle(R.string.need_auth_title)
+                    .setDesc(R.string.need_auth_desc)
+                plate.setOnClickListener { onClick() }
+                contentController.addContent(plate, ContentController.TAG_NEED_AUTH)
+            }
+            contentController.showContent(ContentController.TAG_NEED_AUTH)
+        } else {
+            contentController.hideContent(ContentController.TAG_NEED_AUTH)
+        }
     }
 
     open fun setRefreshing(isRefreshing: Boolean) {

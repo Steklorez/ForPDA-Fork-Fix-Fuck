@@ -13,6 +13,8 @@
     <string name="default_s">Default</string>
     <string name="pref_lang_title">Language</string>
     <string name="ok">Ok</string>
+    <string name="need_auth_title">Sign in required</string>
+    <string name="need_auth_desc">Tap to sign in</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
     <string name="no">No</string>
@@ -256,8 +258,7 @@
     <string name="fav_subscribe_pinned">As soon as the first post is edited</string>
     <string name="fav_unpin">Unpin</string>
     <string name="fav_mark_all_read">Mark all as read</string>
-    <string name="fav_mark_all_read_title">Mark all as read?</string>
-    <string name="fav_mark_all_read_confirm">%1$d topics will be marked as read. It takes a while, the list updates as it goes.</string>
+    <string name="fav_mark_all_read_confirm">%1$d of %2$d will be marked as read</string>
     <string name="fav_mark_all_read_failed">Could not mark topics: %1$d</string>
     <string name="fav_mark_all_read_nothing">No unread topics</string>
     <string name="fav_pin">Pin</string>

@@ -17,6 +17,7 @@ import java.util.HashMap;
  * */
 public class ContentController {
     public final static String TAG_NO_DATA = "NO_DATA";
+    public final static String TAG_NEED_AUTH = "NEED_AUTH";
     private View additionalRefresh;
     private final ViewGroup additionalContent;
     private View mainRefresh;
