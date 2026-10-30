@@ -72,6 +72,12 @@ class QmsChatPresenter(
                 handleEvent(it)
             }
             .untilDestroy()
+        eventsRepository
+            .observeQmsUpdates()
+            .subscribe { updatedThemeId ->
+                if (currentData?.themeId == updatedThemeId) checkNewMessages()
+            }
+            .untilDestroy()
         nick?.let { nick -> title?.let { title -> viewState.setTitles(title, nick) } }
 
         updateMode()
@@ -211,7 +217,7 @@ class QmsChatPresenter(
             if (themeId == it.themeId) {
                 when (event.type) {
                     NotificationEvent.Type.NEW -> {
-                        onNewWsMessage(themeId, messageId)
+                        if (messageId > 0) onNewWsMessage(themeId, messageId) else checkNewMessages()
                     }
 
                     NotificationEvent.Type.READ -> {
@@ -240,7 +246,7 @@ class QmsChatPresenter(
                 .subscribe({
                     onNewMessages(it)
                 }, {
-                    errorHandler.handle(it)
+                    checkNewMessages()
                 })
                 .untilDestroy()
         }
@@ -250,7 +256,7 @@ class QmsChatPresenter(
         currentData?.let {
             val lastMessId = it.messages.lastOrNull()?.id ?: 0
             qmsInteractor
-                .getMessagesAfter(themeId, it.themeId, lastMessId)
+                .getMessagesAfter(it.userId, it.themeId, lastMessId)
                 .subscribe({
                     onNewMessages(it)
                 }, {
@@ -271,8 +277,9 @@ class QmsChatPresenter(
     private fun onNewMessages(items: List<QmsMessage>) {
         currentData?.let { data ->
             val result = items.filter { new ->
-                data.messages.find { it.id != new.id } != null
+                data.messages.none { it.id == new.id }
             }
+            if (result.isEmpty()) return
             data.messages.addAll(result)
             viewState.onNewMessages(result)
         }

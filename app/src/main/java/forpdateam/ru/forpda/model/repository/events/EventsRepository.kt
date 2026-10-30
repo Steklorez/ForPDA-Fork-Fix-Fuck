@@ -71,6 +71,7 @@ class EventsRepository(
     private val notifyStackRelay = PublishRelay.create<List<NotificationEvent>>()
     private val cancelRelay = PublishRelay.create<NotificationEvent>()
     private val notifyTabRelay = PublishRelay.create<TabNotification>()
+    private val qmsUpdatesRelay = PublishRelay.create<Int>()
 
     private val controllerListener: WebSocketController.Listener =
         object : WebSocketController.Listener() {
@@ -178,6 +179,9 @@ class EventsRepository(
         .observeOn(schedulers.ui())
 
     fun observeEventsTab(): Observable<TabNotification> = notifyTabRelay
+
+    /** Theme ids of QMS chats with new messages, found by the push or the periodic check. */
+    fun observeQmsUpdates(): Observable<Int> = qmsUpdatesRelay.observeOn(AndroidSchedulers.mainThread())
         .observeOn(schedulers.ui())
 
     fun setTimerPeriod(period: Long) {
@@ -462,6 +466,12 @@ class EventsRepository(
                     val stackedNewEvents = newEvents.toMutableList()
 
                     checkOldEvents(loadedEvents, source)
+
+                    // An open chat learns about new messages only from here when the websocket is down:
+                    // the push and the minute check land in this place, not in handleWebSocketEvent.
+                    if (NotificationEvent.fromQms(source)) {
+                        newEvents.forEach { qmsUpdatesRelay.accept(it.sourceId) }
+                    }
 
                     //Удаляем из общего уведомления текущие уведомление
                     for (event in events) {

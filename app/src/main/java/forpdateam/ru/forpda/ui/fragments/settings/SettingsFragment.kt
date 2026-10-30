@@ -1,5 +1,8 @@
 package forpdateam.ru.forpda.ui.fragments.settings
 
+import android.text.InputType
+import androidx.preference.EditTextPreference
+import forpdateam.ru.forpda.client.AppProxy
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
@@ -48,6 +51,26 @@ class SettingsFragment : BaseSettingFragment() {
         } else {
             findPreference<Preference>("auth.action.logout")?.apply {
                 isEnabled = false
+            }
+        }
+
+        // Proxy fields: the value as the summary, a numbers-only port, a hidden password.
+        listOf(AppProxy.KEY_HOST, AppProxy.KEY_PORT, AppProxy.KEY_USER).forEach { key ->
+            findPreference<EditTextPreference>(key)?.apply {
+                summaryProvider = Preference.SummaryProvider<EditTextPreference> {
+                    it.text?.takeIf { t -> t.isNotBlank() } ?: getString(R.string.pref_proxy_not_set)
+                }
+                if (key == AppProxy.KEY_PORT) {
+                    setOnBindEditTextListener { it.inputType = InputType.TYPE_CLASS_NUMBER }
+                }
+            }
+        }
+        findPreference<EditTextPreference>(AppProxy.KEY_PASSWORD)?.apply {
+            summaryProvider = Preference.SummaryProvider<EditTextPreference> {
+                if (it.text.isNullOrEmpty()) getString(R.string.pref_proxy_not_set) else "••••••"
+            }
+            setOnBindEditTextListener {
+                it.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
         }
 

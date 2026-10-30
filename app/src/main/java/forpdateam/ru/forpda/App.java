@@ -73,6 +73,7 @@ import forpdateam.ru.forpda.notifications.NotificationsJobCreator;
 import forpdateam.ru.forpda.notifications.NotificationsService;
 import forpdateam.ru.forpda.notifications.push.PushRegistrar;
 import forpdateam.ru.forpda.common.TimeZoneSync;
+import forpdateam.ru.forpda.client.AppProxy;
 import forpdateam.ru.forpda.ui.fragments.TabFragment;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -156,6 +157,8 @@ public class App extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        // Must be before Dependencies: the forum client picks its proxy settings up when created.
+        AppProxy.init(getPreferences());
         long time = System.currentTimeMillis();
         // Yandex Metrica removed: it reported every crash of this fork into the original author's account.
 

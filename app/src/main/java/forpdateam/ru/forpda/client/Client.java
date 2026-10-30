@@ -187,6 +187,8 @@ public class Client implements IWebClient {
             .readTimeout(45, TimeUnit.SECONDS)
             .sslSocketFactory(getNewSslContext().getSocketFactory())
             .cookieJar(cookieJar)
+            .proxySelector(AppProxy.selector)
+            .proxyAuthenticator(AppProxy.authenticator)
             .build();
 
 

@@ -26,6 +26,15 @@
     <string name="default_s">По умолчанию</string>
     <string name="pref_lang_title">Язык</string>
     <string name="ok">Ок</string>
+    <string name="pref_title_network">Сеть</string>
+    <string name="pref_title_proxy">Прокси</string>
+    <string name="pref_summary_proxy">Запросы к форуму и картинки идут через прокси</string>
+    <string name="pref_title_proxy_type">Тип прокси</string>
+    <string name="pref_title_proxy_host">Адрес</string>
+    <string name="pref_title_proxy_port">Порт</string>
+    <string name="pref_title_proxy_user">Логин (если нужен)</string>
+    <string name="pref_title_proxy_password">Пароль (если нужен)</string>
+    <string name="pref_proxy_not_set">Не задано</string>
     <string name="need_auth_title">Нужна авторизация</string>
     <string name="need_auth_desc">Нажмите, чтобы войти</string>
     <string name="yes">Да</string>

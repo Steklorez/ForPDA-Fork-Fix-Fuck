@@ -51,4 +51,12 @@
         <item>1800</item>
         <item>3600</item>
     </string-array>
+    <string-array name="entries_proxy_type">
+        <item>HTTP</item>
+        <item>SOCKS5</item>
+    </string-array>
+    <string-array name="entry_values_proxy_type" translatable="false">
+        <item>HTTP</item>
+        <item>SOCKS</item>
+    </string-array>
 </resources>

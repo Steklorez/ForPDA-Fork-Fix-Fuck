@@ -13,6 +13,15 @@
     <string name="default_s">Default</string>
     <string name="pref_lang_title">Language</string>
     <string name="ok">Ok</string>
+    <string name="pref_title_network">Network</string>
+    <string name="pref_title_proxy">Proxy</string>
+    <string name="pref_summary_proxy">Forum requests and images go through the proxy</string>
+    <string name="pref_title_proxy_type">Proxy type</string>
+    <string name="pref_title_proxy_host">Host</string>
+    <string name="pref_title_proxy_port">Port</string>
+    <string name="pref_title_proxy_user">Login (optional)</string>
+    <string name="pref_title_proxy_password">Password (optional)</string>
+    <string name="pref_proxy_not_set">Not set</string>
     <string name="need_auth_title">Sign in required</string>
     <string name="need_auth_desc">Tap to sign in</string>
     <string name="yes">Yes</string>

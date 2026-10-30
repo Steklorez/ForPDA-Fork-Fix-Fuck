@@ -2,6 +2,14 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
+## [1.0.7-fff]
+
+### Added
+- **Proxy** — Settings → Network: HTTP or SOCKS5, host, port, optional login and password. Forum requests and images go through it; switching takes effect without a restart. Off by default. Pictures that a topic page loads by itself inside the web view and the instant-events websocket still go direct.
+
+### Fixed
+- **New messages did not show up in an open QMS chat** — the push and the minute check never told an open chat about new messages, the manual catch-up sent the topic id where the user id belongs, and a failed websocket lookup just gave up. An open chat now loads new messages right after the push.
+
 ## [1.0.6-fff]
 
 ### Added
