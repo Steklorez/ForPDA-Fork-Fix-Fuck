@@ -294,6 +294,8 @@ public class Client implements IWebClient {
         try {
             okHttpResponse = client.newCall(requestBuilder.build()).execute();
             if (!okHttpResponse.isSuccessful()) {
+                Log.w(LOG_TAG, "Response " + okHttpResponse.code() + " for " + okHttpResponse.request().url()
+                        + " via " + okHttpResponse.header("Server") + " (requested " + request.getUrl() + ")");
                 if (okHttpResponse.code() == 403) {
                     String content = okHttpResponse.body().string();
                     //todo catch this is errorhandler

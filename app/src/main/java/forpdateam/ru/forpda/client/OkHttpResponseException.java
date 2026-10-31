@@ -20,7 +20,7 @@ public class OkHttpResponseException extends Exception {
 
     @Override
     public String getMessage() {
-        return "Response {code=" + code + ", message=" + name + "}";
+        return "Response {code=" + code + ", message=" + name + ", url=" + url + "}";
     }
 
     public String getName() {

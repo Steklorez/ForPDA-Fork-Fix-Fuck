@@ -2,6 +2,12 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
+## [1.0.8-fff]
+
+### Fixed
+- **SOCKS5 proxy with a login did not work** — Android asks for SOCKS credentials as a "server" request, the app only answered "proxy" ones, so the proxy got the system user name ("root") and no password. The saved login and password are sent now.
+- **Network errors name the page** — "Response {code=404, …}" now ends with the address that failed, so a bug report says exactly which request broke.
+
 ## [1.0.7-fff]
 
 ### Added

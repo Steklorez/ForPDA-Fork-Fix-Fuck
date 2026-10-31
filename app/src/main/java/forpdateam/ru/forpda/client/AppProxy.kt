@@ -38,7 +38,10 @@ object AppProxy {
         // SOCKS credentials and HttpURLConnection (image loader) go through the JVM authenticator.
         java.net.Authenticator.setDefault(object : java.net.Authenticator() {
             override fun getPasswordAuthentication(): PasswordAuthentication? {
-                if (requestorType != RequestorType.PROXY) return null
+                // Java's SOCKS client asks with requestorType SERVER and protocol "SOCKS5",
+                // so both that and a real proxy request get the saved login.
+                val socks = requestingProtocol?.startsWith("SOCKS", ignoreCase = true) == true
+                if (requestorType != RequestorType.PROXY && !socks) return null
                 val user = user() ?: return null
                 return PasswordAuthentication(user, password().toCharArray())
             }
