@@ -1,5 +1,6 @@
 package forpdateam.ru.forpda.ui.views.drawers
 
+import forpdateam.ru.forpda.common.UpdateNotice
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -213,6 +214,7 @@ class BottomDrawer(
                                 }
                                 .filter { it.count > 0 }
                             otherMenuItem.appItem.count = notExistMainCounters.sumOf { it.count }
+                            otherMenuItem.appItem.dot = UpdateNotice.hasUpdate()
                             localItems = mainItems.plusElement(otherMenuItem)
                         }
                         updateMenu()

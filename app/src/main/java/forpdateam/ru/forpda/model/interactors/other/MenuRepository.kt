@@ -1,5 +1,6 @@
 package forpdateam.ru.forpda.model.interactors.other
 
+import forpdateam.ru.forpda.common.UpdateNotice
 import android.content.SharedPreferences
 import android.util.Log
 import com.f2prateek.rx.preferences2.RxSharedPreferences
@@ -141,6 +142,10 @@ class MenuRepository(
                 localCounters = counters
                 updateMenuItems()
             }
+
+        UpdateNotice
+            .observe()
+            .subscribe { updateMenuItems() }
         updateMenuItems()
     }
 
@@ -200,6 +205,7 @@ class MenuRepository(
         allItems.firstOrNull { it.id == item_qms_contacts }?.count = localCounters.qms
         allItems.firstOrNull { it.id == item_mentions }?.count = localCounters.mentions
         allItems.firstOrNull { it.id == item_favorites }?.count = localCounters.favorites
+        allItems.firstOrNull { it.id == item_settings }?.dot = UpdateNotice.hasUpdate()
 
         if (authHolder.get().isAuth()) {
             blockedMenu.addAll(blockAuth)

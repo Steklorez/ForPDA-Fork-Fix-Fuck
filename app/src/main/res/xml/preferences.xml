@@ -231,7 +231,7 @@
         <Preference
             android:key="about.application"
             android:layout="@layout/preference_custom"
-            android:title="ForPDA"
+            android:title="@string/app_name"
             app:iconSpaceReserved="false" />
 
     </PreferenceCategory>

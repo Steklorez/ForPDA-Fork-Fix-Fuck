@@ -11,6 +11,7 @@ import forpdateam.ru.forpda.ui.views.drawers.adapters.DrawerMenuItem
 import forpdateam.ru.forpda.ui.views.drawers.adapters.ListItem
 import forpdateam.ru.forpda.ui.views.drawers.adapters.MenuListItem
 import kotlinx.android.synthetic.main.item_other_menu.view.otherMenuCounter
+import kotlinx.android.synthetic.main.item_other_menu.view.otherMenuDot
 import kotlinx.android.synthetic.main.item_other_menu.view.otherMenuIcon
 import kotlinx.android.synthetic.main.item_other_menu.view.otherMenuTitle
 
@@ -63,6 +64,8 @@ class MenuItemDelegate(
                 otherMenuCounter.text = item.appItem.count.toString()
                 otherMenuCounter.visibility =
                     if (item.appItem.count > 0) View.VISIBLE else View.GONE
+                otherMenuDot.visibility =
+                    if (item.appItem.count <= 0 && item.appItem.dot) View.VISIBLE else View.GONE
             }
         }
     }

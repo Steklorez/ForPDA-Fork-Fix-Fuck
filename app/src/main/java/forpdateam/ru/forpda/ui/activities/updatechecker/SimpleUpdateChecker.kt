@@ -26,12 +26,12 @@ class SimpleUpdateChecker(
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun checkUpdate() {
+    fun checkUpdate(notify: Boolean = true) {
         compositeDisposable.add(
             checkerRepository
                 .checkUpdate(true)
                 .subscribe({
-                    showUpdateData(it)
+                    if (notify) showUpdateData(it)
                 }, {
                     it.printStackTrace()
                 })

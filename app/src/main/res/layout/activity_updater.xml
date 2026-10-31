@@ -75,7 +75,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
+            android:background="?background_for_cards"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -115,7 +115,8 @@
                 android:layout_height="1dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="@dimen/dp16"
-                android:background="#ddd"
+                android:background="?attr/second_text_color"
+                android:alpha="0.3"
                 android:visibility="gone" />
 
             <LinearLayout

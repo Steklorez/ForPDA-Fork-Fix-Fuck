@@ -1,5 +1,8 @@
 package forpdateam.ru.forpda.ui.fragments.settings
 
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import forpdateam.ru.forpda.common.UpdateNotice
 import android.text.InputType
 import androidx.preference.EditTextPreference
 import forpdateam.ru.forpda.client.AppProxy
@@ -92,6 +95,11 @@ class SettingsFragment : BaseSettingFragment() {
         }
 
         findPreference<Preference>("about.check_update")?.apply {
+            if (UpdateNotice.hasUpdate()) {
+                title = SpannableString("$title  ●").apply {
+                    setSpan(ForegroundColorSpan(0xFFEF5350.toInt()), length - 1, length, 0)
+                }
+            }
             setOnPreferenceClickListener {
                 startActivity(Intent(activity, UpdateCheckerActivity::class.java))
                 false

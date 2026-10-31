@@ -8,4 +8,6 @@ class AppMenuItem(
     val screen: Screen? = null
 ) {
     var count: Int = 0
+    /** Small red dot without a number, e.g. "an update is available". */
+    var dot: Boolean = false
 }

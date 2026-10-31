@@ -12,6 +12,7 @@ import com.hannesdorfmann.adapterdelegates3.AdapterDelegate
 import forpdateam.ru.forpda.App
 import forpdateam.ru.forpda.R
 import kotlinx.android.synthetic.main.item_bottom_tab.view.itemBottomMenuCounter
+import kotlinx.android.synthetic.main.item_bottom_tab.view.itemBottomMenuDot
 import kotlinx.android.synthetic.main.item_bottom_tab.view.itemBottomMenuIcon
 
 class BottomMenuDelegate(private val clickListener: Listener) :
@@ -78,6 +79,8 @@ class BottomMenuDelegate(private val clickListener: Listener) :
                     }
                     View.VISIBLE
                 } else View.GONE
+                itemBottomMenuDot.visibility =
+                    if (item.appItem.count <= 0 && item.appItem.dot) View.VISIBLE else View.GONE
             }
         }
     }

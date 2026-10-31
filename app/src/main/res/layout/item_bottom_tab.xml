@@ -44,4 +44,15 @@
         app:layout_constraintWidth_default="wrap"
         app:layout_constraintWidth_min="20dp"/>
 
+    <View
+        android:id="@+id/itemBottomMenuDot"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/notify_dot"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/itemBottomMenuIcon"
+        app:layout_constraintStart_toStartOf="@id/itemBottomMenuIcon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

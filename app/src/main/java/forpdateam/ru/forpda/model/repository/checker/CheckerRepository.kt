@@ -1,5 +1,6 @@
 package forpdateam.ru.forpda.model.repository.checker
 
+import forpdateam.ru.forpda.common.UpdateNotice
 import android.util.Log
 import com.jakewharton.rxrelay2.BehaviorRelay
 import forpdateam.ru.forpda.entity.remote.checker.UpdateData
@@ -39,6 +40,7 @@ class CheckerRepository(
         }
         .doOnSuccess {
             currentDataRelay.accept(it)
+            UpdateNotice.onChecked(it.code)
         }
         .subscribeOn(schedulers.io())
         .observeOn(schedulers.ui())

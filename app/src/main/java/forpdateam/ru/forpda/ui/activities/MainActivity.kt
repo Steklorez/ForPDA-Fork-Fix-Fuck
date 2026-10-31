@@ -1,5 +1,6 @@
 package forpdateam.ru.forpda.ui.activities
 
+import forpdateam.ru.forpda.common.UpdateNotice
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlarmManager
@@ -182,8 +183,9 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 }
         )
 
-        if (notificationPreferencesRepository.getUpdateEnabled()) {
-            updateChecker.checkUpdate()
+        // At most once a day: the result is remembered and shown as a red dot in the menu.
+        if (UpdateNotice.isCheckDue()) {
+            updateChecker.checkUpdate(notificationPreferencesRepository.getUpdateEnabled())
         }
     }
 
