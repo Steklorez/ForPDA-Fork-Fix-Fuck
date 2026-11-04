@@ -1,0 +1,6 @@
+/* Post text font chosen in Settings: bundled, so bold and italic do not depend on the phone's system font. */
+@font-face{font-family:"FFF Post";src:url(roboto/Roboto-Regular.ttf);font-style:normal;font-weight:400}
+@font-face{font-family:"FFF Post";src:url(roboto/Roboto-Bold.ttf);font-style:normal;font-weight:700}
+@font-face{font-family:"FFF Post";src:url(roboto/Roboto-Italic.ttf);font-style:italic;font-weight:400}
+@font-face{font-family:"FFF Post";src:url(roboto/Roboto-BoldItalic.ttf);font-style:italic;font-weight:700}
+body{font-family:"FFF Post",sans-serif}

@@ -117,6 +117,17 @@
             android:title="@string/pref_title_text_size"
             app:iconSpaceReserved="false" />
 
+        <ListPreference
+            android:dialogTitle="@string/pref_title_font"
+            android:entries="@array/entries_webview_font"
+            android:entryValues="@array/entry_values_webview_font"
+            android:key="main.webview.font"
+            android:layout="@layout/preference_custom"
+            android:summary="%s"
+            android:defaultValue="system"
+            android:title="@string/pref_title_font"
+            app:iconSpaceReserved="false" />
+
         <forpdateam.ru.forpda.ui.views.SwitchPreference
             android:defaultValue="true"
             android:key="message_panel.is_monospace"

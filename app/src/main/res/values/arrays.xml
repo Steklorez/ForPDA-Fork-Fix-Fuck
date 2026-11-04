@@ -22,6 +22,19 @@
         <item>SYSTEM</item>
     </string-array>
 
+    <string-array name="entries_webview_font">
+        <item>@string/pref_value_font_system</item>
+        <item>@string/pref_value_font_roboto</item>
+        <item>@string/pref_value_font_arial</item>
+        <item>@string/pref_value_font_verdana</item>
+    </string-array>
+    <string-array name="entry_values_webview_font">
+        <item>system</item>
+        <item>roboto</item>
+        <item>arial</item>
+        <item>verdana</item>
+    </string-array>
+
     <string-array name="entries_push_mode">
         <item>@string/pref_push_mode_push</item>
         <item>@string/pref_push_mode_poll</item>

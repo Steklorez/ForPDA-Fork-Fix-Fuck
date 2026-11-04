@@ -147,7 +147,7 @@ class Dependencies internal constructor(
         )
     }
 
-    val templateManager by lazy { TemplateManager(context, dayNightHelper) }
+    val templateManager by lazy { TemplateManager(context, dayNightHelper, mainPreferencesHolder) }
     val themeTemplate by lazy { ThemeTemplate(templateManager, authHolder, topicPreferencesHolder) }
     val articleTemplate by lazy { ArticleTemplate(templateManager) }
     val searchTemplate by lazy {

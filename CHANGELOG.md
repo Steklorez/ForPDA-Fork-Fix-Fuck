@@ -2,6 +2,11 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
+## [1.0.9-fff]
+
+### Added
+- **Post font** — Settings → Appearance → Font: System (default, nothing changes), Roboto, Classic (Arial-like, Liberation Sans) or Classic wide (Verdana-like, DejaVu Sans). The bundled fonts carry their own bold and italic, so bold text shows up even when the phone uses a third-party system font without a bold face. Applies to topics, search, QMS, news, forum rules and announcements; takes effect the next time a page opens.
+
 ## [1.0.8-fff]
 
 ### Fixed

@@ -11,10 +11,19 @@ class MainPreferencesHolder(
     private val sharedPreferences: SharedPreferences
 ) {
 
+    companion object {
+        const val WEBVIEW_FONT_SYSTEM = "system"
+        private val WEBVIEW_FONTS = setOf(WEBVIEW_FONT_SYSTEM, "roboto", "arial", "verdana")
+    }
+
     private val rxPreferences = RxSharedPreferences.create(sharedPreferences)
 
     private val webViewFontSize by lazy {
         rxPreferences.getInteger(Preferences.Main.WEBVIEW_FONT_SIZE, 16)
+    }
+
+    private val webViewFont by lazy {
+        rxPreferences.getString(Preferences.Main.WEBVIEW_FONT, WEBVIEW_FONT_SYSTEM)
     }
 
     private val systemDownloader by lazy {
@@ -62,6 +71,9 @@ class MainPreferencesHolder(
 
 
     fun getWebViewFontSize(): Int = max(min(webViewFontSize.get(), 64), 8)
+
+    // Name of assets/fonts/post_font_<name>.css; anything unknown falls back to the system font.
+    fun getWebViewFont(): String = webViewFont.get().takeIf { it in WEBVIEW_FONTS } ?: WEBVIEW_FONT_SYSTEM
 
     fun getSystemDownloader(): Boolean = systemDownloader.get()
 

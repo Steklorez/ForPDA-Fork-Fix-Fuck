@@ -3,13 +3,15 @@ package forpdateam.ru.forpda.ui
 import android.content.Context
 import biz.source_code.miniTemplator.MiniTemplator
 import forpdateam.ru.forpda.common.DayNightHelper
+import forpdateam.ru.forpda.model.preferences.MainPreferencesHolder
 import io.reactivex.Observable
 import java.io.ByteArrayInputStream
 import java.nio.charset.Charset
 
 class TemplateManager(
     private val context: Context,
-    private val dayNightHelper: DayNightHelper
+    private val dayNightHelper: DayNightHelper,
+    private val mainPreferencesHolder: MainPreferencesHolder
 ) {
 
     companion object {
@@ -44,6 +46,7 @@ class TemplateManager(
                 setVariable(entry.key, it)
             }
         }
+        setVariableOpt("post_font", mainPreferencesHolder.getWebViewFont())
     }
 
     fun getTemplate(name: String): MiniTemplator = templates[name]

@@ -36,6 +36,7 @@ public class Preferences {
         private final static String PREFIX = "main.";
 
         public final static String WEBVIEW_FONT_SIZE = PREFIX + "webview.font_size_v2";
+        public final static String WEBVIEW_FONT = PREFIX + "webview.font";
         public final static String IS_SYSTEM_DOWNLOADER = PREFIX + "is_system_downloader";
         public final static String IS_EDITOR_MONOSPACE = "message_panel.is_monospace";
         public final static String IS_EDITOR_DEFAULT_HIDDEN = "message_panel.is_default_hidden";

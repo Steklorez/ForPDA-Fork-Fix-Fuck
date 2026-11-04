@@ -408,6 +408,11 @@
     <string name="pref_summary_show_bottom_arrow">Enable if system has gesture at bottom of screen</string>
     <string name="pref_title_text_size">Text size</string>
     <string name="pref_summary_text_size">Being applied for topics, search and chat</string>
+    <string name="pref_title_font">Font</string>
+    <string name="pref_value_font_system">System</string>
+    <string name="pref_value_font_roboto">Roboto</string>
+    <string name="pref_value_font_arial">Classic (Arial-like)</string>
+    <string name="pref_value_font_verdana">Classic wide (Verdana-like)</string>
     <string name="pref_title_monospace">Monospaced font</string>
     <string name="pref_summary_monospace">Font used in post editor</string>
     <string name="pref_title_panel_hidden">Hidden input field</string>
