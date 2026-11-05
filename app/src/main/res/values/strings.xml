@@ -467,6 +467,7 @@
     <string name="pref_summary_text_size">Применяется для тем, поиска и чата</string>
     <string name="pref_title_font">Шрифт</string>
     <string name="server_refused_ok">Понятно</string>
+    <string name="forum_error_title">Сообщение 4PDA</string>
     <string name="server_refused_title_rate">Слишком много запросов</string>
     <string name="server_refused_text_rate">4PDA временно перестал отвечать: с этого устройства или сети было слишком много запросов подряд (поиск, обновления страниц). Подождите несколько минут и повторите.</string>
     <string name="server_refused_title_cloudflare">Доступ ограничен защитой 4PDA</string>

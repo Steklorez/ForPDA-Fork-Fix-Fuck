@@ -2,6 +2,7 @@ package forpdateam.ru.forpda.presentation
 
 import forpdateam.ru.forpda.App
 import forpdateam.ru.forpda.R
+import forpdateam.ru.forpda.client.OnlyShowException
 import forpdateam.ru.forpda.client.ServerRefusedException
 
 /**
@@ -15,6 +16,12 @@ class ErrorHandler(
         throwable.printStackTrace()
         if (throwable is ServerRefusedException) {
             showServerRefused(throwable)
+            return
+        }
+        // The forum's own error box ("search no more than once in N seconds" and the like):
+        // a toast was gone before it could be read.
+        if (throwable is OnlyShowException && !throwable.message.isNullOrBlank()) {
+            router.showSystemAlert(App.get().getString(R.string.forum_error_title), throwable.message.orEmpty())
             return
         }
         val message = getMessage(throwable)

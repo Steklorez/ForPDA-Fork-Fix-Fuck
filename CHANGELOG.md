@@ -6,6 +6,7 @@ All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` bra
 
 ### Fixed
 - **Clear message when the forum refuses to serve** — a Cloudflare check ("4PDA .:. Всё в порядке, но..."), too many requests (429) or a server that is down (502/503/504/52x) used to show a "Google Captcha" toast or a raw "Response {code=…}" for two seconds. Now a dialog says what happened and what to do (wait, pass the check in a browser, sign in for search), with the "Retry-After" wait when the server sends one, the code and the address. It stays until "OK" is tapped; one at a time, however many requests fail. Search without signing in gets the Cloudflare check on every request, that one is covered too.
+- **Forum error messages stayed for two seconds** — the forum's own error box (wrong password or captcha at sign-in, "wait N seconds/minutes" limits and the like) was a toast, gone before it could be read. It is a dialog with the forum's text now, closed by "OK".
 
 ## [1.0.9-fff]
 

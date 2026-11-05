@@ -410,6 +410,7 @@
     <string name="pref_summary_text_size">Being applied for topics, search and chat</string>
     <string name="pref_title_font">Font</string>
     <string name="server_refused_ok">OK</string>
+    <string name="forum_error_title">4PDA says</string>
     <string name="server_refused_title_rate">Too many requests</string>
     <string name="server_refused_text_rate">4PDA stopped answering for a while: too many requests in a row came from this device or network (search, page refreshes). Wait a few minutes and try again.</string>
     <string name="server_refused_title_cloudflare">Access limited by 4PDA protection</string>
