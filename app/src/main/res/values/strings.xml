@@ -466,6 +466,15 @@
     <string name="pref_title_text_size">Размер шрифта</string>
     <string name="pref_summary_text_size">Применяется для тем, поиска и чата</string>
     <string name="pref_title_font">Шрифт</string>
+    <string name="server_refused_ok">Понятно</string>
+    <string name="server_refused_title_rate">Слишком много запросов</string>
+    <string name="server_refused_text_rate">4PDA временно перестал отвечать: с этого устройства или сети было слишком много запросов подряд (поиск, обновления страниц). Подождите несколько минут и повторите.</string>
+    <string name="server_refused_title_cloudflare">Доступ ограничен защитой 4PDA</string>
+    <string name="server_refused_text_cloudflare">Защита сайта (Cloudflare) не пропускает запросы с этого устройства или сети. Обычно это проходит само через несколько минут. Если долго не проходит, откройте 4pda.to в браузере и пройдите проверку, или смените сеть. Без входа в аккаунт поиск закрыт почти всегда: войдите.</string>
+    <string name="server_refused_title_unavailable">Сервер 4PDA недоступен</string>
+    <string name="server_refused_text_unavailable">Сайт сейчас не отвечает или перегружен. Это не ошибка приложения, попробуйте позже.</string>
+    <string name="server_refused_retry_after">Сервер просит подождать примерно %1$d мин.</string>
+    <string name="server_refused_details">Код %1$d, %2$s</string>
     <string name="pref_value_font_system">Системный</string>
     <string name="pref_value_font_roboto">Roboto</string>
     <string name="pref_value_font_arial">Классический (как Arial)</string>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.github.terrakok.cicerone.Back
@@ -15,6 +16,7 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.Replace
 import com.jakewharton.rxrelay2.BehaviorRelay
 import forpdateam.ru.forpda.App
+import forpdateam.ru.forpda.R
 import forpdateam.ru.forpda.presentation.Screen
 import forpdateam.ru.forpda.ui.activities.MainActivity
 import forpdateam.ru.forpda.ui.activities.SettingsActivity
@@ -187,6 +189,7 @@ class TabNavigator(
             is Replace -> replace(command)
             is BackTo -> backTo(command)
             is SystemMessage -> showSystemMessage(command.message)
+            is SystemAlert -> showSystemAlert(command.title, command.message)
         }
     }
 
@@ -293,6 +296,19 @@ class TabNavigator(
 
     private fun showSystemMessage(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private var systemAlert: AlertDialog? = null
+
+    // One dialog at a time: a refusing server fails every request on screen, and they all land here.
+    private fun showSystemAlert(title: String, message: String) {
+        if (activity.isFinishing || systemAlert?.isShowing == true) return
+        systemAlert = AlertDialog.Builder(activity)
+            .setTitle(title)
+            .setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.server_refused_ok, null)
+            .show()
     }
 
     private fun createActivityIntent(context: Context, screen: Screen): Intent? {

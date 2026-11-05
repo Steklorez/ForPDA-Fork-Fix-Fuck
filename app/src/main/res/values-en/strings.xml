@@ -409,6 +409,15 @@
     <string name="pref_title_text_size">Text size</string>
     <string name="pref_summary_text_size">Being applied for topics, search and chat</string>
     <string name="pref_title_font">Font</string>
+    <string name="server_refused_ok">OK</string>
+    <string name="server_refused_title_rate">Too many requests</string>
+    <string name="server_refused_text_rate">4PDA stopped answering for a while: too many requests in a row came from this device or network (search, page refreshes). Wait a few minutes and try again.</string>
+    <string name="server_refused_title_cloudflare">Access limited by 4PDA protection</string>
+    <string name="server_refused_text_cloudflare">The site protection (Cloudflare) does not let requests from this device or network through. It usually clears by itself in a few minutes. If it does not, open 4pda.to in a browser and pass the check, or switch networks. Without signing in, search is almost always closed: sign in.</string>
+    <string name="server_refused_title_unavailable">4PDA server is unavailable</string>
+    <string name="server_refused_text_unavailable">The site is not answering or is overloaded right now. This is not an app error, try again later.</string>
+    <string name="server_refused_retry_after">The server asks to wait about %1$d min.</string>
+    <string name="server_refused_details">Code %1$d, %2$s</string>
     <string name="pref_value_font_system">System</string>
     <string name="pref_value_font_roboto">Roboto</string>
     <string name="pref_value_font_arial">Classic (Arial-like)</string>

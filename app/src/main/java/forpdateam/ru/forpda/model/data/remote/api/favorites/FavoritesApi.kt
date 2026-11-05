@@ -6,6 +6,7 @@ import forpdateam.ru.forpda.entity.remote.favorites.FavItem
 import forpdateam.ru.forpda.model.data.remote.IWebClient
 import forpdateam.ru.forpda.model.data.remote.api.NetworkRequest
 import forpdateam.ru.forpda.client.OkHttpResponseException
+import forpdateam.ru.forpda.client.ServerRefusedException
 import java.io.IOException
 import java.util.Collections
 
@@ -114,7 +115,8 @@ class FavoritesApi(
                 return true
             } catch (ex: Exception) {
                 val retry = ex is IOException ||
-                        (ex is OkHttpResponseException && (ex.code == 429 || ex.code == 404 || ex.code in 500..599))
+                        ex is ServerRefusedException ||
+                        (ex is OkHttpResponseException && (ex.code == 404 || ex.code in 500..599))
                 attempt++
                 if (!retry || attempt >= READ_MAX_ATTEMPTS) return false
                 Thread.sleep(minOf(READ_BACKOFF_BASE_MS * (1L shl (attempt - 1)), READ_BACKOFF_CAP_MS))

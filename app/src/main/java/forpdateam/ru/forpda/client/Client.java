@@ -296,10 +296,27 @@ public class Client implements IWebClient {
             if (!okHttpResponse.isSuccessful()) {
                 Log.w(LOG_TAG, "Response " + okHttpResponse.code() + " for " + okHttpResponse.request().url()
                         + " via " + okHttpResponse.header("Server") + " (requested " + request.getUrl() + ")");
+                final Response failed = okHttpResponse;
+                final String[] content = {null};
+                ServerRefusedException refused = ServerRefusedException.classify(
+                        failed.code(), request.getUrl(),
+                        name -> failed.header(name),
+                        () -> {
+                            if (content[0] == null) {
+                                try {
+                                    content[0] = failed.body().string();
+                                } catch (Exception e) {
+                                    content[0] = "";
+                                }
+                            }
+                            return content[0];
+                        });
+                if (refused != null) {
+                    throw refused;
+                }
                 if (okHttpResponse.code() == 403) {
-                    String content = okHttpResponse.body().string();
-                    //todo catch this is errorhandler
-                    throw new GoogleCaptchaException(content);
+                    if (content[0] == null) content[0] = okHttpResponse.body().string();
+                    throw new GoogleCaptchaException(content[0]);
                 }
                 throw new OkHttpResponseException(okHttpResponse.code(), okHttpResponse.message(), request.getUrl());
             }
