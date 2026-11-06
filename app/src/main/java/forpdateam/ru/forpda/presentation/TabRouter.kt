@@ -10,7 +10,7 @@ class TabRouter : Router() {
         executeCommands(SystemMessage(message))
     }
 
-    fun showSystemAlert(title: String, message: String) {
-        executeCommands(SystemAlert(title, message))
+    fun showSystemAlert(title: String, message: String, waitSeconds: Long? = null) {
+        executeCommands(SystemAlert(title, message, waitSeconds))
     }
 }

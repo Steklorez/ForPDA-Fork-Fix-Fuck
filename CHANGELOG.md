@@ -2,6 +2,12 @@
 
 All notable resurrections of ForPDAFFF. Based on ForPDA New 1.0.1 (`develop` branch of the original).
 
+## [1.0.11-fff]
+
+### Fixed
+- **Error messages in plain words** — instead of raw exception text ("The source did not signal an event", "Response{code=451…}", "Unable to resolve host") the app says what happened and what to do: no answer in time, 4pda.to unreachable (check the internet or use a VPN), secure connection error, sign-in required (401), access denied (403), page not found (404, with the page path), access restricted for this address (451), forum server error (5xx), no connection. A screen closed mid-load no longer pops "Job was cancelled".
+- **Countdown in "wait" dialogs** — the too-many-requests dialog and the forum's "wait N seconds/minutes" box show a shrinking line and "осталось 1:23" (Retry-After, the forum's own number, or about a minute for a 429 without one); at zero it says "Можно повторить". A repeated error while it is open only extends the countdown, no second dialog.
+
 ## [1.0.10-fff]
 
 ### Fixed

@@ -4,6 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.os.Handler
+import android.os.Looper
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -189,7 +195,7 @@ class TabNavigator(
             is Replace -> replace(command)
             is BackTo -> backTo(command)
             is SystemMessage -> showSystemMessage(command.message)
-            is SystemAlert -> showSystemAlert(command.title, command.message)
+            is SystemAlert -> showSystemAlert(command.title, command.message, command.waitSeconds)
         }
     }
 
@@ -300,15 +306,88 @@ class TabNavigator(
 
     private var systemAlert: AlertDialog? = null
 
+    private val alertHandler = Handler(Looper.getMainLooper())
+    private var waitStartMs = 0L
+    private var waitUntilMs = 0L
+    private var waitBar: ProgressBar? = null
+    private var waitText: TextView? = null
+
     // One dialog at a time: a refusing server fails every request on screen, and they all land here.
-    private fun showSystemAlert(title: String, message: String) {
-        if (activity.isFinishing || systemAlert?.isShowing == true) return
-        systemAlert = AlertDialog.Builder(activity)
+    // A repeat while it is open only extends the countdown.
+    private fun showSystemAlert(title: String, message: String, waitSeconds: Long?) {
+        if (activity.isFinishing) return
+        val until = waitSeconds?.takeIf { it > 0 }?.let { System.currentTimeMillis() + it * 1000 }
+        if (systemAlert?.isShowing == true) {
+            if (until != null && waitBar != null && until > waitUntilMs) {
+                waitUntilMs = until
+                tickWait()
+            }
+            return
+        }
+        val builder = AlertDialog.Builder(activity)
             .setTitle(title)
-            .setMessage(message)
             .setCancelable(false)
             .setPositiveButton(R.string.server_refused_ok, null)
-            .show()
+        if (until == null) {
+            waitBar = null
+            waitText = null
+            builder.setMessage(message)
+        } else {
+            waitStartMs = System.currentTimeMillis()
+            waitUntilMs = until
+            builder.setView(createWaitView(message))
+        }
+        systemAlert = builder.show().also { dialog ->
+            dialog.setOnDismissListener {
+                alertHandler.removeCallbacksAndMessages(null)
+                waitBar = null
+                waitText = null
+            }
+        }
+        if (until != null) tickWait()
+    }
+
+    private fun createWaitView(message: String): View {
+        val density = activity.resources.displayMetrics.density
+        val pad = (24 * density).toInt()
+        return LinearLayout(activity).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(pad, (16 * density).toInt(), pad, 0)
+            addView(TextView(activity).apply {
+                text = message
+                setTextColor(App.getColorFromAttr(activity, R.attr.default_text_color))
+            })
+            waitBar = ProgressBar(activity, null, android.R.attr.progressBarStyleHorizontal).apply {
+                max = 1000
+                isIndeterminate = false
+            }
+            addView(waitBar, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (4 * density).toInt()).apply {
+                topMargin = (16 * density).toInt()
+            })
+            waitText = TextView(activity).apply {
+                setTextColor(App.getColorFromAttr(activity, R.attr.second_text_color))
+            }
+            addView(waitText, LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                topMargin = (8 * density).toInt()
+            })
+        }
+    }
+
+    private fun tickWait() {
+        alertHandler.removeCallbacksAndMessages(null)
+        val bar = waitBar ?: return
+        val text = waitText ?: return
+        val now = System.currentTimeMillis()
+        val left = (waitUntilMs - now).coerceAtLeast(0)
+        val total = (waitUntilMs - waitStartMs).coerceAtLeast(1)
+        bar.progress = (left * 1000 / total).toInt()
+        if (left <= 0) {
+            text.setText(R.string.error_wait_done)
+            return
+        }
+        val seconds = (left + 999) / 1000
+        text.text = activity.getString(R.string.error_wait_left, String.format("%d:%02d", seconds / 60, seconds % 60))
+        alertHandler.postDelayed({ tickWait() }, 500)
     }
 
     private fun createActivityIntent(context: Context, screen: Screen): Intent? {

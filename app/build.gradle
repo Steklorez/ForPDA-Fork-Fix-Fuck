@@ -30,7 +30,7 @@ android {
     def fileNaming = "ForPDAFFF"
 
     // Bump versionPatchNumber on every release: it feeds versionName, versionCode and the file name.
-    def versionPatchNumber = 10
+    def versionPatchNumber = 11
     def versionNumber = 300 + versionPatchNumber // above the corpse (224), so its update checker shuts up
 
     def versionMajor = "1"
@@ -159,6 +159,7 @@ ext {
 }
 
 dependencies {
+    testImplementation 'junit:junit:4.13.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.palette:palette:1.0.0'
