@@ -1,5 +1,10 @@
 # ForPDAFFF
 
+[![Latest release](https://img.shields.io/github/v/release/Steklorez/ForPDA-Fork-Fix-Fuck?label=latest%20release&color=2ea043)](../../releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Steklorez/ForPDA-Fork-Fix-Fuck/total?label=downloads&color=2ea043)](../../releases)
+[![Platform](https://img.shields.io/badge/platform-Android%205.0%2B-3DDC84?logo=android&logoColor=white)](../../releases/latest)
+[![License: GPL v3](https://img.shields.io/github/license/Steklorez/ForPDA-Fork-Fix-Fuck?color=blue)](LICENSE)
+
 **ForPDA Fork Fix F\*\*\*** — the good old [4pda.to](https://4pda.to) client, dug out of its grave, given some makeup, and put back to work.
 
 You know that joke about the flight attendant? *"Dig her up, put some lipstick on her, and..."* — yeah. That's this repo.
